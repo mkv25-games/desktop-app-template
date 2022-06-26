@@ -19,9 +19,13 @@
     </div>
     <div class="column">
       <h2>Right Column</h2>
-      <p>Information about the last save:</p>
+      <p>Information about available characters:</p>
       <p>
-        <PropertyPanel :item="saveFileList.length ? saveFileList.map(n => n.name) : ['No recent saves found']" />
+        <VerticalTileGrid :item="characters" />
+      </p>
+      <p>Information about available technologies:</p>
+      <p>
+        <VerticalTileGrid :item="technologies" />
       </p>
     </div>
   </div>
@@ -29,10 +33,14 @@
 
 <script>
 import listSaveFiles from '@/formatting/listSaveFiles'
+import VerticalTileGrid from '../components/ui/VerticalTileGrid.vue'
 
 export default {
   async mounted () {
-    await this.$store.dispatch('refreshSaveFileList')
+    await Promise.all([
+      this.$store.dispatch('refreshSaveFileList'),
+      this.$store.dispatch('loadModpacks')
+    ])
   },
   computed: {
     saveFileList () {
@@ -40,6 +48,12 @@ export default {
     },
     lastSaveFile () {
       return listSaveFiles(this.saveFileList)[0] || false
+    },
+    characters () {
+      return this.$store.state.gamedata.Character || []
+    },
+    technologies () {
+      return this.$store.state.gamedata.Technology || []
     }
   },
   methods: {
@@ -47,7 +61,8 @@ export default {
       await this.$store.dispatch('loadGameRecord', saveFile)
       this.$router.push({ path: '/multi-page-section/section-1' })
     }
-  }
+  },
+  components: { VerticalTileGrid }
 }
 </script>
 

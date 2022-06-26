@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "test": "standard --env mocha && npm run test:unit",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "standard --fix --env mocha"
+    "lint": "standard --fix --env mocha && eslint **/*.vue --fix"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

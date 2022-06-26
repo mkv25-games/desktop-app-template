@@ -23,6 +23,7 @@ import MultiPageSectionNav from './views/multi-page-section/ui/MultiPageSectionN
 import SaveFileManagement from './views/SaveFileManagement.vue'
 import ComponentTests from './views/settings/debug/ComponentTests.vue'
 import Debug from './views/settings/debug/Debug.vue'
+import Icons from './views/settings/debug/Icons.vue'
 import Gamedata from './views/settings/Gamedata.vue'
 import Mods from './views/settings/Mods.vue'
 import Settings from './views/settings/Settings.vue'
@@ -31,5 +32,5 @@ import StartNewGame from './views/StartNewGame.vue'
 import Template from './views/Template.vue'
 
 export default {
-  PrimaryNav, SidebarNav, StoryTeller, ColumnLayout, GridFill, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
+  PrimaryNav, SidebarNav, StoryTeller, ColumnLayout, GridFill, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Icons, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
 }

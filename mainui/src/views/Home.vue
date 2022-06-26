@@ -33,17 +33,18 @@ export default {
 }
 
 h1 {
-  color: white;
+  color: black;
 }
 
 .excerpt {
   display: inline-block;
-  width: 60%;
+  width: 40%;
   padding: 20px 20px;
+  border-radius: 1em;
   border-left: 4px solid #eee;
   border-right: 4px solid #eee;
-  background: rgba(34, 34, 34, 0.7);
-  color: white;
+  background: rgba(224, 224, 224, 0.7);
+  color: black;
   font-weight: 500;
 }
 

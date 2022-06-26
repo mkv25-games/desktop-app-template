@@ -16,6 +16,10 @@
       <icon icon="cogs" />
       <span>Debug</span>
     </router-link>
+    <router-link to="/settings/debug/icons">
+      <icon icon="icons" />
+      <span>Icons</span>
+    </router-link>
     <router-link to="/settings/debug/component-tests">
       <icon icon="boxes" />
       <span>Component Tests</span>

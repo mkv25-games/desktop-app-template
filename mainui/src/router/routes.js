@@ -9,6 +9,7 @@ import Section3 from '../views/multi-page-section/Section3.vue'
 import SaveFileManagement from '../views/SaveFileManagement.vue'
 import ComponentTests from '../views/settings/debug/ComponentTests.vue'
 import Debug from '../views/settings/debug/Debug.vue'
+import Icons from '../views/settings/debug/Icons.vue'
 import Gamedata from '../views/settings/Gamedata.vue'
 import Mods from '../views/settings/Mods.vue'
 import Settings from '../views/settings/Settings.vue'
@@ -60,6 +61,11 @@ const routes = [
     path: '/settings/debug/debug',
     name: 'Debug',
     component: Debug
+  },
+  {
+    path: '/settings/debug/icons',
+    name: 'Icons',
+    component: Icons
   },
   {
     path: '/settings/gamedata',
