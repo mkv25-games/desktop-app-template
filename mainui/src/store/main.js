@@ -1,14 +1,14 @@
 import { createStore } from 'vuex'
 import rpcModel from '@/api/rpc'
-import newContact from '@/models/contact.js'
+import newSaveFile from '@/models/saveFile.js'
 import newUserPreferences from '@/models/userPreferences.js'
 import newModpack from '@/models/modpack.js'
 
 function defaultUserPreferences () {
   return {
     userPreferences: newUserPreferences(),
-    contact: newContact(),
-    contactList: [],
+    saveFile: newSaveFile(),
+    saveFileList: [],
     modpacks: [],
     allRegionTypes: [],
     allStellarArchetypes: [],
@@ -54,11 +54,11 @@ function setup () {
       setUserPreferences (state, newUserPreferences) {
         Object.assign(state.userPreferences, newUserPreferences)
       },
-      assignContact (state, contact) {
-        state.contact = contact
+      assignSaveFile (state, saveFile) {
+        state.saveFile = saveFile
       },
-      contactList (state, contactList) {
-        state.contactList = contactList
+      saveFileList (state, saveFileList) {
+        state.saveFileList = saveFileList
       },
       regions (state, newRegions) {
         state.allRegionTypes = newRegions
@@ -100,25 +100,25 @@ function setup () {
         const version = await rpcProxy.version()
         commit('setVersion', version)
       },
-      async loadContact ({ commit }, payload) {
+      async loadGameRecord ({ commit }, payload) {
         const rpcProxy = await rpc.fetch()
-        const contact = await rpcProxy.requestData(payload.name)
-        console.log('store/main.js Contact:', contact, 'Payload:', payload)
-        commit('assignContact', contact.data)
+        const saveFile = await rpcProxy.requestData(payload.name)
+        console.log('store/main.js SaveFile:', saveFile, 'Payload:', payload)
+        commit('assignSaveFile', saveFile.data)
       },
-      async saveContact ({ commit, state }, contact) {
-        commit('assignContact', contact)
+      async saveGameRecord ({ commit, state }, saveFile) {
+        commit('assignSaveFile', saveFile)
         const rpcProxy = await rpc.fetch()
-        const data = clone(contact)
-        return rpcProxy.sendData(state.contact.name, data)
+        const data = clone(saveFile)
+        return rpcProxy.sendData(state.saveFile.name, data)
       },
-      async refreshContactList ({ commit }) {
+      async refreshSaveFileList ({ commit }) {
         const rpcProxy = await rpc.fetch()
         const files = await rpcProxy.findFiles('**/*')
-        const contactList = files
+        const saveFileList = files
           .filter(file => file.filepath.includes('/savedata/') || file.filepath.includes('\\savedata\\'))
           .filter(file => !file.filepath.includes('userPreferences.json'))
-        commit('contactList', contactList)
+        commit('saveFileList', saveFileList)
       },
       async loadModpacks ({ commit }) {
         const rpcProxy = await rpc.fetch()

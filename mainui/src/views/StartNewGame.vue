@@ -3,27 +3,25 @@
     <column-layout class="fixed-width-right overflow-hidden">
       <template v-slot:left>
         <pan-and-zoom class="darkmode">
-          <p style="color: white; background: grey; padding: 2em; width: 200px; height: 100px; font-size: 20px;">World map goes here?</p>
+          <div style="color: white; background: grey; padding: 2em; width: 200px; height: 100px; font-size: 20px;">World map goes here?</div>
         </pan-and-zoom>
       </template>
       <template v-slot:right>
         <h2>New Game Setup</h2>
-        <p>Forming phase dialect with extrapolated constraints:</p>
+        <p>What will this world be named?</p>
         <div class="form">
           <div class="form-row">
-            <label>Save name:</label>
-            <input v-model="filename" placeholder="New contact" />
+            <label>World Name:</label>
+            <input v-model="filename" placeholder="Enter text" />
           </div>
           <div v-if="formErrors.length" class="form-errors">
-            <h2>Contact Disconnects</h2>
+            <h3>Form Errors</h3>
             <p class="form-error" v-for="message in formErrors" :key="message">{{ message }}</p>
           </div>
-          <galaxy-inputs v-on:inputsChanged="regenerateGalaxy" />
           <p class="actions">
-            <router-link to="/universe">Cancel</router-link>
-            <button v-on:click="submitForm">Connect</button>
+            <router-link to="/home">Cancel</router-link>
+            <button v-on:click="submitForm">Create</button>
           </p>
-          <region-types :regions="quadrantWithAnalysis.regions" />
         </div>
       </template>
     </column-layout>
@@ -31,79 +29,48 @@
 </template>
 
 <script>
-import newContact from '@/models/contact'
-import newGalaxy from '@/models/galaxy'
+import newSaveFile from '@/models/saveFile'
 
 export default {
   data () {
     return {
-      filename: '',
-      formErrors: [],
-      highlightedQuadrant: null,
-      overrideGalaxy: false
+      filename: 'Ascension',
+      formErrors: []
     }
   },
   computed: {
     electron () {
       return window.electron
     },
-    contact () {
-      return this.$store.state.contact || newContact()
-    },
-    galaxy () {
-      return this.overrideGalaxy || this.$store.state.galaxy || newGalaxy()
-    },
-    regions () {
-      return this.$store.state.allRegionTypes || []
-    },
-    quadrantWithAnalysis () {
-      const quad = this.highlightedQuadrant || {}
-      const quadrantData = {
-        mass: quad.mass,
-        density: quad.density,
-        composition: quad.composition
-      }
-
-      quadrantData.regions = this.regions.filter(region => {
-        const inDensity = quadrantData.density >= region.density.lower && quadrantData.density <= region.density.upper
-        const inMass = quadrantData.mass >= region.mass.lower && quadrantData.mass <= region.mass.upper
-        return inDensity && inMass
-      })
-
-      return quadrantData
+    saveFile () {
+      return this.$store.state.saveFile
     }
   },
   methods: {
     validateForm () {
       this.formErrors = []
       if (!this.filename) {
-        this.formErrors.push('No contact name assigned')
+        this.formErrors.push('No world name assigned')
       }
 
       return this.formErrors.length === 0
     },
     submitForm () {
-      return this.validateForm() ? this.createContact(this) : false
+      return this.validateForm() ? this.createNewGameFile(this) : false
     },
-    async createContact (data) {
-      console.log('Creating contact:', data.filename)
-      let contact
+    async createNewGameFile (data) {
+      console.log('Creating new game file:', data.filename)
+      let saveFile
       try {
-        contact = newContact({ name: data.filename, galaxy: this.galaxy })
-        await this.$store.dispatch('saveContact', contact)
-        await this.$store.dispatch('loadContact', contact)
-        this.$router.push({ path: '/galaxy/galaxy-view' })
+        saveFile = newSaveFile({ name: data.filename })
+        await this.$store.dispatch('saveGameRecord', saveFile)
+        await this.$store.dispatch('loadGameRecord', saveFile)
+        this.$router.push({ path: '/full-page-section' })
       } catch (ex) {
-        this.formErrors.push('Unable to create contact:', ex.message, contact)
-        console.log('[EstablishContact.vue]', ex, 'Contact:', contact)
+        this.formErrors.push('Unable to create save file:', ex.message, saveFile)
+        console.log('[StartNewGame.vue]', ex, 'Save File:', saveFile)
       }
       return true
-    },
-    showQuadrantInfo (quadrant) {
-      this.highlightedQuadrant = quadrant
-    },
-    regenerateGalaxy (properties) {
-      this.overrideGalaxy = newGalaxy(properties)
     }
   }
 }

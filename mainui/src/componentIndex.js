@@ -13,7 +13,6 @@ import IconButton from './components/ui/IconButton.vue'
 import PanAndZoom from './components/ui/PanAndZoom.vue'
 import Property from './components/ui/Property.vue'
 import PropertyPanel from './components/ui/PropertyPanel.vue'
-import QuadrantBreakdown from './components/ui/QuadrantBreakdown.vue'
 import Tabulation from './components/ui/Tabulation.vue'
 import VerticalTileGrid from './components/ui/VerticalTileGrid.vue'
 import FullPageSection from './views/FullPageSection.vue'
@@ -34,5 +33,5 @@ import StartNewGame from './views/StartNewGame.vue'
 import Template from './views/Template.vue'
 
 export default {
-  PrimaryNav, SidebarNav, Orbit, StoryTeller, ColumnLayout, GridFill, HighlightedQuadrantInfo, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, QuadrantBreakdown, Tabulation, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
+  PrimaryNav, SidebarNav, Orbit, StoryTeller, ColumnLayout, GridFill, HighlightedQuadrantInfo, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
 }

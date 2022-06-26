@@ -10,7 +10,7 @@
             </pan-and-zoom>
           </template>
           <template v-slot:right>
-            <h2>{{ contact.name }}</h2>
+            <h2>{{ saveFile.name }}</h2>
             <icon icon="star" />
           </template>
         </column-layout>
@@ -29,11 +29,11 @@ export default {
     }
   },
   computed: {
-    contact () {
-      return this.$store.state.contact
+    saveFile () {
+      return this.$store.state.saveFile
     },
     lastUpdated () {
-      const date = new Date(this.contact.lastUpdated)
+      const date = new Date(this.saveFile.lastUpdated)
       return date.toISOString().slice(0, 19).replace('T', ' ')
     }
   },

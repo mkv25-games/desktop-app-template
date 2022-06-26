@@ -1,5 +1,5 @@
-function listContacts (contactList) {
-  const contacts = contactList.map(file => {
+function listSaveFiles (saveFileList) {
+  const saveFiles = saveFileList.map(file => {
     file.name = file.filepath
       .replace('/savedata/', '')
       .replace('\\savedata\\', '')
@@ -11,7 +11,7 @@ function listContacts (contactList) {
     return mtimeb - mtimea
   })
 
-  return contacts
+  return saveFiles
 }
 
-export default listContacts
+export default listSaveFiles

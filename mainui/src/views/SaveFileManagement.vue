@@ -1,24 +1,24 @@
 <template>
-  <div class="contact-management">
+  <div class="save-file-management">
     <h1>Local Save Files</h1>
     <p v-if="loading">Loading Save Data...</p>
-    <div v-else-if="contacts.length">
+    <div v-else-if="saveFiles.length">
       <p>Save files are ordered by save date</p>
       <ul>
-        <li v-for="contact in contacts" :key="contact.filepath">
-          <div class="name-label" v-on:click="loadContact(contact)">{{ contact.name }}</div>
-          <div class="date-label">{{ formatDate(contact.fileinfo.mtime) }}</div>
-          <div class="delete-label" v-on:click="deleteContact(contact.name)">[delete]</div>
+        <li v-for="saveFile in saveFiles" :key="saveFile.filepath">
+          <div class="name-label" v-on:click="loadGameRecord(saveFile)">{{ saveFile.name }}</div>
+          <div class="date-label">{{ formatDate(saveFile.fileinfo.mtime) }}</div>
+          <div class="delete-label" v-on:click="deleteSaveFile(saveFile.name)">[delete]</div>
         </li>
       </ul>
       <p>You can load up, or delete save files from this list.</p>
     </div>
     <div v-else>
-      <p>No contacts found.</p>
+      <p>No saveFiles found.</p>
       <p>Consider: <router-link to="/start-new-game">Start New Game</router-link></p>
     </div>
     <p>
-      <router-link to="/universe">&lt; Back</router-link>
+      <router-link to="/full-page-section">&lt; Back</router-link>
     </p>
     <div v-if="errors.length > 0" class="errors">
       <h2>Errors</h2>
@@ -29,8 +29,8 @@
 
 <script>
 import formatDate from '@/formatting/formatDate'
-import listContacts from '@/formatting/listContacts'
-// const exampleContacts = [{ name: 'Loading contacts', fileinfo: { mtime: new Date() }, filepath: '/' }]
+import listSaveFiles from '@/formatting/listSaveFiles'
+// const exampleSaveFiles = [{ name: 'Loading saveFiles', fileinfo: { mtime: new Date() }, filepath: '/' }]
 
 export default {
   data () {
@@ -43,32 +43,32 @@ export default {
     electron () {
       return window.electron
     },
-    contacts () {
-      return listContacts(this.$store.state.contactList)
+    saveFiles () {
+      return listSaveFiles(this.$store.state.saveFileList)
     }
   },
   methods: {
-    async loadContact (savefile) {
+    async loadGameRecord (savefile) {
       try {
-        await this.$store.dispatch('loadContact', savefile)
-        this.$router.push({ path: '/galaxy/galaxy-view' })
+        await this.$store.dispatch('loadGameRecord', savefile)
+        this.$router.push({ path: '/full-page-section' })
       } catch (ex) {
-        this.errors.push(`Unable to load contact ${savefile.filepath}.`)
+        this.errors.push(`Unable to load savefile ${savefile.filepath}.`)
       }
     },
-    async deleteContact (key) {
+    async deleteSaveFile (key) {
       await this.electron.clearData(key)
-      return this.findContacts()
+      return this.findSaveFiles()
     },
-    async findContacts () {
+    async findSaveFiles () {
       this.loading = true
-      await this.$store.dispatch('refreshContactList')
+      await this.$store.dispatch('refreshSaveFileList')
       this.loading = false
     },
     formatDate
   },
   async mounted () {
-    this.findContacts()
+    this.findSaveFiles()
   }
 }
 </script>

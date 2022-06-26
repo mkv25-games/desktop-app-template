@@ -5,7 +5,7 @@
       <p>The landing page of the application.</p>
       <p>Welcome to this place in space and time.</p>
       <p>&nbsp;</p>
-      <div v-if="$store.state.contactList.length > 0">
+      <div v-if="$store.state.saveFileList.length > 0">
         <router-link to="/full-page-section" draggable="false">Continue Adventure <icon icon="angle-double-right" /></router-link>
       </div>
       <div v-else>
@@ -19,7 +19,7 @@
 <script>
 export default {
   async mounted () {
-    await this.$store.dispatch('refreshContactList')
+    await this.$store.dispatch('refreshSaveFileList')
   }
 }
 </script>

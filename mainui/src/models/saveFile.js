@@ -1,12 +1,9 @@
-import createGalaxy from './galaxy'
-
 function createDefault () {
   const now = new Date()
   const lastUpdated = now.toISOString()
   return {
     lastUpdated,
-    name: 'Unknown Contact',
-    galaxy: createGalaxy()
+    name: 'The Unknown World'
   }
 }
 
