@@ -2,11 +2,9 @@
 
 import PrimaryNav from './components/PrimaryNav.vue'
 import SidebarNav from './components/SidebarNav.vue'
-import Orbit from './components/space/Orbit.vue'
 import StoryTeller from './components/toys/StoryTeller.vue'
 import ColumnLayout from './components/ui/ColumnLayout.vue'
 import GridFill from './components/ui/GridFill.vue'
-import HighlightedQuadrantInfo from './components/ui/HighlightedQuadrantInfo.vue'
 import HorizontalTileGrid from './components/ui/HorizontalTileGrid.vue'
 import Icon from './components/ui/Icon.vue'
 import IconButton from './components/ui/IconButton.vue'
@@ -33,5 +31,5 @@ import StartNewGame from './views/StartNewGame.vue'
 import Template from './views/Template.vue'
 
 export default {
-  PrimaryNav, SidebarNav, Orbit, StoryTeller, ColumnLayout, GridFill, HighlightedQuadrantInfo, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
+  PrimaryNav, SidebarNav, StoryTeller, ColumnLayout, GridFill, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
 }
