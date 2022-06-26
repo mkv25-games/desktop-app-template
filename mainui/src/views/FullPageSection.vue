@@ -20,13 +20,23 @@
     <div class="column">
       <h2>Right Column</h2>
       <p>Information about available characters:</p>
-      <p>
-        <VerticalTileGrid :item="characters" />
-      </p>
+      <VerticalTileGrid :tiles="characters" :columns="1" :rows="4" :tileWidth="300">
+        <template v-slot="{ tile }">
+          <div class="icon-label" :style="{ background: tile.color }">
+            <span><font-awesome-icon :icon="['fas', tile.icon || 'star']" /></span>
+            <label>{{ tile.name }}</label>
+          </div>
+        </template>
+      </VerticalTileGrid>
       <p>Information about available technologies:</p>
-      <p>
-        <VerticalTileGrid :item="technologies" />
-      </p>
+      <VerticalTileGrid :tiles="technologies" :columns="1" :rows="4" :tileWidth="300">
+        <template v-slot="{ tile }">
+          <div class="icon-label">
+            <span><font-awesome-icon :icon="['fas', tile.icon || 'star']" /></span>
+            <label>{{ tile.name }}</label>
+          </div>
+        </template>
+      </VerticalTileGrid>
     </div>
   </div>
 </template>
@@ -84,5 +94,38 @@ a {
 a:hover {
   color: purple;
   text-shadow: 2px 2px rgb(50, 20, 20, 0.2);
+}
+
+.icon-label {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin: auto;
+  width: 100%;
+}
+.icon-label:hover {
+  background: #111;
+  color: white;
+}
+.icon-label:active {
+  background: #444;
+  color: white;
+}
+.icon-label > span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 1;
+  min-width: 2em;
+  min-height: 2em;
+  padding: 0.5em;
+}
+.icon-label > label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1 50;
+  padding: 0.5em;
 }
 </style>
