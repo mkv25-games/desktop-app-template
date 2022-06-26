@@ -18,7 +18,7 @@ const titleize = str => {
 
 function routeFromPath (vueFile) {
   const filename = filenameFromPath(vueFile)
-  const path = `/${vueFile.replace('.vue', '').split('/').map(kebabize).join('/')}`
+  const path = `/${vueFile.replace('.vue', '').split('/').map(kebabize).join('/')}`.replaceAll('--', '-')
   const name = titleize(filename)
   return {
     path,
@@ -48,14 +48,14 @@ async function run () {
   console.log(vueViewFiles.join('\n'))
   console.log('Found', vueViewFiles.length, 'vue view files')
 
-  const lines = ['/* Generated file: node data-scripts/find-all-views.js */']
+  const lines = ['/* Generated file: node data-scripts/find-all-routes.js */']
   lines.push('')
   lines.push(...importStatements)
-  lines.push('')
   lines.push('')
   lines.push(`const routes = ${JSON.stringify(vueRoutes, null, 2)}`)
   lines.push('')
   lines.push('export default routes')
+  lines.push('')
 
   const outputFile = '../router/routes.js'
   let body = lines.join('\n')

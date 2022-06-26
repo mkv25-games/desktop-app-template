@@ -2,6 +2,7 @@
 
 run() {
     node data-scripts/find-all-components.js
+    node data-scripts/find-all-routes.js
     cd mainui
     npm install
     npm run serve &

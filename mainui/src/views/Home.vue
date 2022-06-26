@@ -6,10 +6,10 @@
       <p>Welcome to this place in space and time.</p>
       <p>&nbsp;</p>
       <div v-if="$store.state.contactList.length > 0">
-        <router-link to="/universe" draggable="false">Continue Adventure <icon icon="angle-double-right" /></router-link>
+        <router-link to="/full-page-section" draggable="false">Continue Adventure <icon icon="angle-double-right" /></router-link>
       </div>
       <div v-else>
-        <router-link to="/universe" draggable="false">Start Adventure</router-link>
+        <router-link to="/full-page-section" draggable="false">Start Adventure</router-link>
       </div>
       <p>&nbsp;</p>
     </div>

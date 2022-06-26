@@ -1,9 +1,9 @@
 <template>
   <div class="contact-management">
-    <h1>Local Contacts</h1>
-    <p v-if="loading">Loading Contacts</p>
+    <h1>Local Save Files</h1>
+    <p v-if="loading">Loading Save Data...</p>
     <div v-else-if="contacts.length">
-      <p>Contacts are ordered linearly by access time</p>
+      <p>Save files are ordered by save date</p>
       <ul>
         <li v-for="contact in contacts" :key="contact.filepath">
           <div class="name-label" v-on:click="loadContact(contact)">{{ contact.name }}</div>
@@ -11,11 +11,11 @@
           <div class="delete-label" v-on:click="deleteContact(contact.name)">[delete]</div>
         </li>
       </ul>
-      <p>You may optionally process or erradicate existing contacts from the system.</p>
+      <p>You can load up, or delete save files from this list.</p>
     </div>
     <div v-else>
       <p>No contacts found.</p>
-      <p>Consider: <router-link to="/establish-contact">Establish Contact</router-link></p>
+      <p>Consider: <router-link to="/start-new-game">Start New Game</router-link></p>
     </div>
     <p>
       <router-link to="/universe">&lt; Back</router-link>

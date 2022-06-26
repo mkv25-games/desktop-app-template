@@ -1,34 +1,28 @@
 <template>
   <div class="universe">
-    <h1>Universe</h1>
+    <h1>Full Page Section</h1>
 
     <div class="column">
-      <h2>Explore</h2>
-      <p>Scout</p>
-      <p>Ancients</p>
-      <p><router-link to="/omniscience/omniscience">Omniscience</router-link></p>
+      <h2>Left Column</h2>
+      <p>Options for new and returning players:</p>
 
-      <h2>Expand</h2>
       <p>
-        <a v-if="lastContact" v-on:click="reestablishContact(lastContact)">Continue <b>{{ lastContact.name }}</b></a>
-        <span v-else class="disabled-link">[Communications Error]</span>
+        <a v-if="lastSaveFile" v-on:click="reloadLastSave(lastSaveFile)">Continue <b>{{ lastSaveFile.name }}</b></a>
+        <span v-else class="disabled-link">[ No Recent Save File Found ]</span>
       </p>
-      <p><router-link to="/establish-contact">Establish Contact</router-link></p>
+      <p><router-link to="/start-new-game">Start New Game</router-link></p>
       <p>
-        <router-link v-if="contactList.length > 0" to="/contact-management">Recover Contact</router-link>
-        <span v-else class="disabled-link">Recover Contact</span>
+        <router-link v-if="contactList.length > 0" to="/contact-management">Manage Save Files</router-link>
+        <span v-else class="disabled-link">[ Manage Save Files ]</span>
       </p>
+
     </div>
     <div class="column">
-      <h2>Exploit</h2>
-      <p>Economy Planner</p>
-      <p>Research Tree</p>
-      <p>Tutorial</p>
-
-      <h2>Exterminate</h2>
-      <p>Combat Diagnostics</p>
-      <p>Challenges</p>
-      <p>Markers</p>
+      <h2>Right Column</h2>
+      <p>Information about the last save:</p>
+      <p>
+        <PropertyPanel :item="contactList.length ? contactList : ['No recent saves found']" />
+      </p>
     </div>
   </div>
 </template>
@@ -44,12 +38,12 @@ export default {
     contactList () {
       return this.$store.state.contactList
     },
-    lastContact () {
+    lastSaveFile () {
       return listContacts(this.contactList)[0] || false
     }
   },
   methods: {
-    async reestablishContact (contact) {
+    async reloadLastSave (contact) {
       await this.$store.dispatch('loadContact', contact)
       this.$router.push({ path: '/galaxy/galaxy-view' })
     }

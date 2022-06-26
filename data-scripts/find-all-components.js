@@ -27,6 +27,7 @@ async function run () {
   lines.push('export default {')
   lines.push('  ' + vueFilenames.join(', '))
   lines.push('}')
+  lines.push('')
 
   const outputFile = 'componentIndex.js'
   const body = lines.join('\n')

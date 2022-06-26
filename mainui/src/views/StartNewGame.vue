@@ -3,15 +3,15 @@
     <column-layout class="fixed-width-right overflow-hidden">
       <template v-slot:left>
         <pan-and-zoom class="darkmode">
-          <GalaxySVG :galaxy="galaxy" :tileSize="40" v-on:quadrantHover="showQuadrantInfo" />
+          <p style="color: white; background: grey; padding: 2em; width: 200px; height: 100px; font-size: 20px;">World map goes here?</p>
         </pan-and-zoom>
       </template>
       <template v-slot:right>
-        <h1>Establish Contact</h1>
+        <h2>New Game Setup</h2>
         <p>Forming phase dialect with extrapolated constraints:</p>
         <div class="form">
           <div class="form-row">
-            <label>Contact Name:</label>
+            <label>Save name:</label>
             <input v-model="filename" placeholder="New contact" />
           </div>
           <div v-if="formErrors.length" class="form-errors">
