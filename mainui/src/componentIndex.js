@@ -12,6 +12,9 @@ import PanAndZoom from './components/ui/PanAndZoom.vue'
 import Property from './components/ui/Property.vue'
 import PropertyPanel from './components/ui/PropertyPanel.vue'
 import Tabulation from './components/ui/Tabulation.vue'
+import TechBox from './components/ui/TechBox.vue'
+import TechDiagram from './components/ui/TechDiagram.vue'
+import TechEdge from './components/ui/TechEdge.vue'
 import VerticalTileGrid from './components/ui/VerticalTileGrid.vue'
 import FullPageSection from './views/FullPageSection.vue'
 import Home from './views/Home.vue'
@@ -32,5 +35,5 @@ import StartNewGame from './views/StartNewGame.vue'
 import Template from './views/Template.vue'
 
 export default {
-  PrimaryNav, SidebarNav, StoryTeller, ColumnLayout, GridFill, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Icons, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
+  PrimaryNav, SidebarNav, StoryTeller, ColumnLayout, GridFill, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, TechBox, TechDiagram, TechEdge, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Icons, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
 }
