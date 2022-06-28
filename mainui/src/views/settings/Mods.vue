@@ -46,8 +46,6 @@ export default {
 
 <style scoped>
 .modpack {
-  border-left: 0.2em solid #999;
-  border-right: 0.2em solid #999;
   margin: 0;
 }
 .modpack > h2 {

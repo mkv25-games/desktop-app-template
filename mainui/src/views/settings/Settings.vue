@@ -28,6 +28,6 @@
   overflow: hidden;
 }
 .scroll > .frame {
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 </style>
