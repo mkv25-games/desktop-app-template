@@ -2,13 +2,14 @@
   <settings class="mods scroll">
     <div class="mods">
       <div class="modpack" v-for="modpack in modpacks" :key="modpack">
-        <h2>{{ modpack.packdata.package || 'No package info' }}</h2>
-        <p>Contents: {{ summarise(modpack).join(', ') }}</p>
-        <div v-for="([datasetKey, items]) in datasets(modpack)" :key="datasetKey" class="dataset">
-          <h3>{{ datasetKey }}</h3>
-          <tabulation :items="items" />
-        </div>
-        <p v-if="modpack.messages.length">{{ modpack.messages }}</p>
+        <Collapsed :title="modpack.packdata.package || 'No package info'">
+          <p>Contents: {{ summarise(modpack).join(', ') }}</p>
+          <div v-for="([datasetKey, items]) in datasets(modpack)" :key="datasetKey" class="dataset">
+            <h3>{{ datasetKey }}</h3>
+            <tabulation :items="items" />
+          </div>
+          <p v-if="modpack.messages.length">{{ modpack.messages }}</p>
+        </Collapsed>
       </div>
     </div>
   </settings>
@@ -47,7 +48,6 @@ export default {
 .modpack {
   border-left: 0.2em solid #999;
   border-right: 0.2em solid #999;
-  padding-bottom: 0.5em;
   margin: 0;
 }
 .modpack > h2 {
