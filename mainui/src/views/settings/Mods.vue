@@ -3,7 +3,9 @@
     <div class="mods">
       <div class="modpack" v-for="modpack in modpacks" :key="modpack">
         <Collapsed :title="modpack.packdata.package || 'No package info'">
-          <p>Contents: {{ summarise(modpack).join(', ') }}</p>
+          <p>Content summary: {{ summarise(modpack).join(', ') }}</p>
+          <p>Website: <a :href="modpack.packdata.website">{{ modpack.packdata.website }}</a></p>
+          <Toggle on="Mod Enabled" off="Mod Disabled" v-model="modpack.enabled" />
           <div v-for="([datasetKey, items]) in datasets(modpack)" :key="datasetKey" class="dataset">
             <h3>{{ datasetKey }}</h3>
             <tabulation :items="items" />
@@ -36,9 +38,7 @@ export default {
     },
     datasets (modpack) {
       return Object.entries(modpack.packdata)
-        .filter(([key, value]) => {
-          return key !== 'package'
-        })
+        .filter(([key, value]) => Array.isArray(value))
     }
   }
 }

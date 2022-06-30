@@ -58,10 +58,10 @@ div.title.bar:hover {
   background: #c8d5c4;
 }
 div.collapsable.expanded > div.title.bar {
-  background: #a0f090;
+  background: #42b983;
 }
 div.collapsable.expanded > div.title.bar:hover {
-  background: #afff9f;
+  background: #62c993;
 }
 div.title.bar > label {
   flex: 2 4;

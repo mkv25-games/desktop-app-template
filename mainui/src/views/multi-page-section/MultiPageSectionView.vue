@@ -22,11 +22,7 @@
 <script>
 export default {
   data () {
-    return {
-      highlightedQuadrant: {
-        regions: []
-      }
-    }
+    return {}
   },
   computed: {
     saveFile () {

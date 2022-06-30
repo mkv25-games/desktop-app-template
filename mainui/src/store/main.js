@@ -10,8 +10,6 @@ function defaultUserPreferences () {
     saveFile: newSaveFile(),
     saveFileList: [],
     modpacks: [],
-    allRegionTypes: [],
-    allStellarArchetypes: [],
     gamedata: {}
   }
 }
@@ -59,12 +57,6 @@ function setup () {
       },
       saveFileList (state, saveFileList) {
         state.saveFileList = saveFileList
-      },
-      regions (state, newRegions) {
-        state.allRegionTypes = newRegions
-      },
-      stellarArchetypes (state, newStellarAchetypes) {
-        state.allStellarArchetypes = newStellarAchetypes
       },
       setVersion (state, version) {
         state.version = version
@@ -125,8 +117,6 @@ function setup () {
         const modpacks = await rpcProxy.findModpacks()
         commit('modpacks', modpacks)
         const allModpackData = combineModpacks(modpacks)
-        commit('regions', allModpackData['Stellar Region'])
-        commit('stellarArchetypes', allModpackData['Stellar Archetype'])
         commit('gamedata', allModpackData)
       },
       async hideDeveloperTools ({ commit, state }) {
