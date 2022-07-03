@@ -21,7 +21,7 @@ const graph = {
   layoutOptions: {
     'elk.algorithm': 'layered',
     'spacing.nodeNodeBetweenLayers': 50,
-    'elk.direction': 'RIGHT'
+    'elk.direction': 'DOWN'
   },
   children: [
     { id: 'n1', width: 120, height: 60, label: 'Chemistry' },
@@ -70,16 +70,17 @@ export default {
         return {
           id: `t_${tech.name}`,
           width: 120,
-          height: 60,
+          height: 90,
           label: tech.name,
-          className: 'tech'
+          className: 'tech',
+          data: tech
         }
       })
       const facilityChildren = facilities.map(facility => {
         return {
           id: `f_${facility.name}`,
           width: 120,
-          height: 60,
+          height: 90,
           label: facility.name,
           className: 'facility',
           data: facility

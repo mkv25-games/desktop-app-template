@@ -50,5 +50,10 @@ export default {
   flex: auto;
   overflow: hidden;
 }
+.scroll .frame {
+  overflow-y: scroll;
+  overflow-x: auto;
+  height: 100%;
+}
 
 </style>

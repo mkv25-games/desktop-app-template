@@ -11,9 +11,15 @@
       :y="5"
       font-size="15"
       text-anchor="middle">
-      <tspan v-for="(line, index) in labelLines" :key="`la_${index}`"
-        :x="hw" dy="19px">{{ line }}</tspan>
     </text>
+    <foreignObject class="node" x="0" y="0" :width="tech.width" :height="tech.height">
+      <body xmlns="http://www.w3.org/1999/xhtml" class="techbox html">
+        <div>
+          <Icon :icon="tech.data.icon" />
+          <div v-for="(line, index) in labelLines" :key="`la_${index}`">{{ line }}</div>
+        </div>
+      </body>
+    </foreignObject>
   </g>
 </template>
 
@@ -48,5 +54,14 @@ export default {
 
 .facility > rect {
   fill: rgb(146, 184, 255);
+}
+.techbox.html {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.techbox.html > div.icon {
+  font-size: 1.5em;
 }
 </style>
