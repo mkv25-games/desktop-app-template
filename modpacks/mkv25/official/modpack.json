@@ -1,4 +1,5 @@
 {
   "package": "mkv25/official",
-  "website": "https://mkv25.net/games/"
+  "website": "https://mkv25.net/games/",
+  "enabled": true
 }

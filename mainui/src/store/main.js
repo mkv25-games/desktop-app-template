@@ -2,9 +2,9 @@ import { createStore } from 'vuex'
 import rpcModel from '@/api/rpc'
 import newSaveFile from '@/models/saveFile.js'
 import newUserPreferences from '@/models/userPreferences.js'
-import newModpack from '@/models/modpack.js'
+import combineModpacks from '@/models/combineModpacks.js'
 
-function defaultUserPreferences () {
+function defaultProgramModel () {
   return {
     userPreferences: newUserPreferences(),
     saveFile: newSaveFile(),
@@ -14,23 +14,6 @@ function defaultUserPreferences () {
   }
 }
 
-function combineModpacks (modpacks) {
-  const combined = modpacks.reduce((acc, item) => {
-    const modpack = clone(item)
-    Object.keys(modpack.packdata).forEach(key => {
-      const packdata = modpack.packdata || {}
-      const items = packdata[key] || []
-      const target = acc[key] || []
-      if (Array.isArray(target) && items.length > 0) {
-        target.push(...items)
-      }
-      acc[key] = target
-    })
-    return acc
-  }, newModpack())
-  return combined
-}
-
 function clone (data) {
   return JSON.parse(JSON.stringify(data))
 }
@@ -38,19 +21,19 @@ function clone (data) {
 function setup () {
   const rpc = rpcModel.instance
   const main = createStore({
-    state: defaultUserPreferences(),
+    state: defaultProgramModel(),
     mutations: {
-      increment (state) {
-        state.userPreferences.count++
-      },
       hideDeveloperTools (state) {
         state.userPreferences.developerTools.visible = false
       },
       showDeveloperTools (state) {
         state.userPreferences.developerTools.visible = true
       },
-      setUserPreferences (state, newUserPreferences) {
-        Object.assign(state.userPreferences, newUserPreferences)
+      setUserPreferences (state, data) {
+        state.userPreferences = clone(data)
+      },
+      patchUserPreferences (state, data) {
+        state.userPreferences = Object.assign({}, state.userPreferences, clone(data))
       },
       assignSaveFile (state, saveFile) {
         state.saveFile = saveFile
@@ -64,13 +47,16 @@ function setup () {
       modpacks (state, modpacks) {
         state.modpacks = modpacks
       },
+      toggleModpackStatus (state, modpackStatus) {
+        state.userPreferences.modpackStatus[modpackStatus.package] = modpackStatus.enabled
+      },
       gamedata (state, gamedata) {
         state.gamedata = gamedata
       }
     },
     actions: {
-      async increment ({ commit, dispatch }) {
-        commit('increment')
+      async increment ({ state, commit, dispatch }) {
+        commit('patchUserPreferences', { count: state.userPreferences.count + 1 })
         dispatch('saveUserPreferences')
       },
       async saveUserPreferences ({ state }) {
@@ -83,9 +69,9 @@ function setup () {
         commit('setUserPreferences', preferences.data)
       },
       async resetUserPreferences ({ commit, state }) {
-        commit('setUserPreferences', defaultUserPreferences())
+        commit('setUserPreferences', newUserPreferences())
         const rpcProxy = await rpc.fetch()
-        await rpcProxy.sendData('userPreferences', state)
+        await rpcProxy.sendData('userPreferences', clone(state.userPreferences))
       },
       async getVersion ({ commit }) {
         const rpcProxy = await rpc.fetch()
@@ -112,14 +98,25 @@ function setup () {
           .filter(file => !file.filepath.includes('userPreferences.json'))
         commit('saveFileList', saveFileList)
       },
-      async loadModpacks ({ commit }) {
+      async loadModpacks ({ state, commit }) {
         const rpcProxy = await rpc.fetch()
         const modpacks = await rpcProxy.findModpacks()
         commit('modpacks', modpacks)
-        const allModpackData = combineModpacks(modpacks)
+        const modpackStatus = state.userPreferences.modpackStatus
+        const allModpackData = combineModpacks(modpacks, modpackStatus)
         commit('gamedata', allModpackData)
       },
-      async hideDeveloperTools ({ commit, state }) {
+      async combineModpacks ({ state, commit }) {
+        const modpacks = state.modpacks
+        const modpackStatus = state.userPreferences.modpackStatus
+        const allModpackData = combineModpacks(modpacks, modpackStatus)
+        commit('gamedata', allModpackData)
+      },
+      async toggleModpackStatus ({ dispatch }) {
+        await dispatch('saveUserPreferences')
+        await dispatch('combineModpacks')
+      },
+      async hideDeveloperTools ({ commit }, state) {
         commit('hideDeveloperTools')
         const rpcProxy = await rpc.fetch()
         return rpcProxy.updateDeveloperTools(state.userPreferences.developerTools.visible)

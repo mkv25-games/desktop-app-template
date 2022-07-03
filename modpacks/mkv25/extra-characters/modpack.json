@@ -1,4 +1,5 @@
 {
   "package": "mkv25/extra-characters",
-  "website": "https://mkv25.net/games/"
+  "website": "https://mkv25.net/games/",
+  "enabled": false
 }

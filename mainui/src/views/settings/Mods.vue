@@ -5,7 +5,9 @@
         <Collapsed :title="modpack.packdata.package || 'No package info'">
           <p>Content summary: {{ summarise(modpack).join(', ') }}</p>
           <p>Website: <a :href="modpack.packdata.website">{{ modpack.packdata.website }}</a></p>
-          <Toggle on="Mod Enabled" off="Mod Disabled" v-model="modpack.enabled" />
+          <Toggle on="Mod Enabled by User" off="Mod Disabled by User" unknown="Click here to enable/disable modpack" v-model="$store.state.userPreferences.modpackStatus[modpack.packdata.package]" v-on:toggled="modStatusChange()" />
+
+          <p><checkmark v-model="modpack.packdata.enabled" /> {{ modpack.packdata.enabled ? 'Enabled' : 'Disabled' }} by Default by Modpack author</p>
           <div v-for="([datasetKey, items]) in datasets(modpack)" :key="datasetKey" class="dataset">
             <h3>{{ datasetKey }}</h3>
             <tabulation :items="items" />
@@ -19,8 +21,9 @@
 
 <script>
 import Tabulation from '../../components/ui/Tabulation.vue'
+import Checkmark from '../../components/ui/Checkmark.vue'
 export default {
-  components: { Tabulation },
+  components: { Tabulation, Checkmark },
   async mounted () {
     await this.$store.dispatch('loadModpacks')
   },
@@ -39,6 +42,9 @@ export default {
     datasets (modpack) {
       return Object.entries(modpack.packdata)
         .filter(([key, value]) => Array.isArray(value))
+    },
+    modStatusChange () {
+      this.$store.dispatch('toggleModpackStatus')
     }
   }
 }

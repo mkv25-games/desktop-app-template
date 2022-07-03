@@ -6,6 +6,7 @@
     <label>
       <span class="hidden-width">{{ on }}</span>
       <span class="hidden-width">{{ off }}</span>
+      <span class="hidden-width">{{ unknown }}</span>
       <span>{{ label }}</span>
     </label>
   </div>
@@ -15,8 +16,7 @@
 export default {
   props: {
     modelValue: {
-      type: Boolean,
-      default: false
+      type: null
     },
     on: {
       type: String,
@@ -25,22 +25,41 @@ export default {
     off: {
       type: String,
       default: 'Disabled'
+    },
+    unknown: {
+      type: String,
+      default: 'Unknown'
     }
   },
   computed: {
     label () {
+      if (this.isUnknown) {
+        return this.unknown
+      }
       return this.modelValue ? this.on : this.off
     },
     icon () {
-      return this.modelValue ? 'check-square' : 'square'
+      if (this.isUnknown) {
+        return 'question'
+      }
+      return this.modelValue ? 'check' : 'times'
     },
     toggleClass () {
+      if (this.isUnknown) {
+        return 'toggle unknown'
+      }
       return this.modelValue ? 'toggle on' : 'toggle off'
+    },
+    isUnknown () {
+      console.log('Is unknown?', this.modelValue, typeof this.modelValue)
+      return typeof this.modelValue !== 'boolean'
     }
   },
   methods: {
     toggle () {
-      this.$emit('update:modelValue', !this.modelValue)
+      const newValue = !this.modelValue
+      this.$emit('update:modelValue', newValue)
+      this.$emit('toggled', newValue)
     }
   }
 }
@@ -57,6 +76,9 @@ div.toggle {
   font-size: 1.2em;
   background: #ddd;
   border-radius: 0.2em;
+}
+div.toggle:hover > .toggle-box {
+  background: white;
 }
 .toggle.on > .toggle-box {
   color: #42b983;

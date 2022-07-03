@@ -3,7 +3,8 @@ function createDefault () {
     count: 0,
     developerTools: {
       visible: false
-    }
+    },
+    modpackStatus: {}
   }
 }
 

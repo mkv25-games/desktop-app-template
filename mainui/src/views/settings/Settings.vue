@@ -13,6 +13,8 @@
         <p>
           <button v-on:click="$store.dispatch('resetUserPreferences')">Reset User Preferences</button>
         </p>
+        <h2>Stored Preferences</h2>
+        <tabulation :items="[$store.state.userPreferences]" />
       </slot>
     </div>
   </div>

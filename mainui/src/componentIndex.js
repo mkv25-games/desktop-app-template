@@ -3,6 +3,7 @@
 import PrimaryNav from './components/PrimaryNav.vue'
 import SidebarNav from './components/SidebarNav.vue'
 import StoryTeller from './components/toys/StoryTeller.vue'
+import Checkmark from './components/ui/Checkmark.vue'
 import Collapsed from './components/ui/Collapsed.vue'
 import ColumnLayout from './components/ui/ColumnLayout.vue'
 import GridFill from './components/ui/GridFill.vue'
@@ -37,5 +38,5 @@ import StartNewGame from './views/StartNewGame.vue'
 import Template from './views/Template.vue'
 
 export default {
-  PrimaryNav, SidebarNav, StoryTeller, Collapsed, ColumnLayout, GridFill, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, TechBox, TechDiagram, TechEdge, Toggle, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Icons, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
+  PrimaryNav, SidebarNav, StoryTeller, Checkmark, Collapsed, ColumnLayout, GridFill, HorizontalTileGrid, Icon, IconButton, PanAndZoom, Property, PropertyPanel, Tabulation, TechBox, TechDiagram, TechEdge, Toggle, VerticalTileGrid, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Icons, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
 }

@@ -2,7 +2,10 @@
   <settings class="scroll">
     <div class="gamedata">
       <h2>Game Data</h2>
-      <p>Sections: {{ summarise(gamedata).join(', ') }}</p>
+      <p v-if="Object.keys(gamedata).length > 0">Sections: {{ summarise(gamedata).join(', ') }}</p>
+      <div v-else>
+        <p>No data found! Are all mods disabled?</p>
+      </div>
       <div v-for="([datasetKey, items]) in datasets(gamedata)" :key="datasetKey" class="dataset">
         <h3>{{ datasetKey }}</h3>
         <tabulation :items="items" />
@@ -30,9 +33,7 @@ export default {
     },
     datasets (gamedata) {
       return Object.entries(gamedata)
-        .filter(([key, value]) => {
-          return key !== 'package'
-        })
+        .filter(([key, value]) => Array.isArray(value))
     }
   }
 }
@@ -40,8 +41,6 @@ export default {
 
 <style scoped>
 .gamedata {
-  border-left: 0.2em solid #999;
-  border-right: 0.2em solid #999;
   padding-bottom: 0.5em;
   margin: 0;
 }
