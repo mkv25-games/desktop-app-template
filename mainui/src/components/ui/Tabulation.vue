@@ -92,9 +92,6 @@ export default {
     }
   },
   computed: {
-    firstHeading () {
-      return this.items[0]
-    },
     columnHeadings () {
       return this.columnKeys.map(n => n.label || n)
     },
@@ -118,7 +115,11 @@ export default {
     },
     listAllProperties () {
       const index = this.items.reduce((acc, item) => {
-        acc = Object.assign(acc, Object.keys(item))
+        if (typeof item === 'object') {
+          acc = Object.assign(acc, Object.keys(item))
+        } else {
+          acc = Object.assign(acc, { type: typeof item })
+        }
         return acc
       }, {})
       return Object.values(index)
@@ -154,8 +155,8 @@ export default {
       const clonedRows = removeArrayListeners(rows)
       if (col) {
         clonedRows.sort((a, b) => {
-          const sa = JSON.stringify(a[0][col])
-          const sb = JSON.stringify(b[0][col])
+          const sa = JSON.stringify(a[0][col] || a[0]) || ''
+          const sb = JSON.stringify(b[0][col] || b[0]) || ''
           return asc ? sa.localeCompare(sb) : sb.localeCompare(sa)
         })
       }
@@ -188,7 +189,7 @@ export default {
     },
     contentsOf (cell, column) {
       const columnKey = this.columnKeys[column] || column
-      return cell[columnKey] || ''
+      return cell[columnKey] || cell || ''
     },
     columnKey (column) {
       return this.columnKeys[column] || column
