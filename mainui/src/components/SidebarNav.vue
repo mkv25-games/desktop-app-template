@@ -48,13 +48,15 @@ export default {
 }
 
 .sidebar-nav.collapse {
-  width: 45px;
-  transition: width 250ms ease-in-out;
+  min-width: 45px;
+  max-width: 45px;
+  transition: min-width 250ms ease-in-out, max-width 250ms ease-in-out;
 }
 
 .sidebar-nav.expand {
-  width: 200px;
-  transition: width 250ms ease-in-out;
+  min-width: 200px;
+  max-width: 200px;
+  transition: min-width 250ms ease-in-out, max-width 250ms ease-in-out;
 }
 
 .sidebar-contents {
