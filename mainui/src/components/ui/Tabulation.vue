@@ -189,7 +189,8 @@ export default {
     },
     contentsOf (cell, column) {
       const columnKey = this.columnKeys[column] || column
-      return cell[columnKey] || cell || ''
+      const columnContents = cell[columnKey]
+      return columnContents === undefined ? cell : columnContents
     },
     columnKey (column) {
       return this.columnKeys[column] || column
