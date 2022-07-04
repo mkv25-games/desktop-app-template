@@ -126,3 +126,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+svg {
+  zoom: 0.8;
+}
+</style>
