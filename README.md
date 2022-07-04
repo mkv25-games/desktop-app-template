@@ -2,6 +2,20 @@
 
 A template for creating a cross-platform application using [Electron JS](https://www.electronjs.org/docs/latest/tutorial/quick-start); using Vue JS to drive the UI and local development flow.
 
+## Preview
+
+### Home page
+
+![Home](./docs/images/home.png)
+
+### Column Layout
+
+![Columns](./docs/images/columns.png)
+
+### Multi Page Section
+
+![Tech Tree](./docs/images/tech-tree.png)
+
 ## Quick Start for Local Development
 
 Run:
@@ -26,18 +40,16 @@ Produces outputs releasable versions in `out/`.
 
 Find a compatable build based on your local platform, and launch to test.
 
-## TODO
+## Checklist
+
 - [x] Set up this repo
-- [ ] Template save and load of local files
-- [ ] Template loading dynamic data sets
-- [ ] Template basic section navigation
-- [ ] Template modpack loading
-- [ ] Add preview screenshots
-
-## Done
-
-- Implement build automation, and document commands in README
-- Set up basic Electron wrapper
-- Set up basic Vue application with Routing
-- Build a full page interactive application
-- Configure Electron to work with the file based version of the compiled Vue application
+- [x] Template save and load of local files
+- [x] Template loading dynamic data sets
+- [x] Template basic section navigation
+- [x] Template modpack loading
+- [x] Add preview screenshots
+- [x] Implement build automation, and document commands in README
+- [x] Set up basic Electron wrapper
+- [x] Set up basic Vue application with Routing
+- [x] Build a full page interactive application
+- [x] Configure Electron to work with the file based version of the compiled Vue application
