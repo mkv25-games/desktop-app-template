@@ -51,7 +51,6 @@ export default {
       return this.modelValue ? 'toggle on' : 'toggle off'
     },
     isUnknown () {
-      console.log('Is unknown?', this.modelValue, typeof this.modelValue)
       return typeof this.modelValue !== 'boolean'
     }
   },

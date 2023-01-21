@@ -1,19 +1,25 @@
 <template>
-  <svg v-if="layout"
+  <div v-if="errors && errors.length > 0">
+    <p class="warning">Errors with ELKJS: <span>{{ errors }}</span></p>
+  </div>
+  <svg v-else-if="layout"
     :width="layout.width" :height="layout.height">
     <g>
       <tech-edge v-for="edge in layout.edges" :key="edge.id" :edge="edge" />
     </g>
     <g>
       <tech-box v-for="tech in layout.children" :key="tech.id"
-        :class="tech.className"
+        :class="tech.className || 'tech'"
         :tech="tech" />
     </g>
+  </svg>
+  <svg v-else width="100" height="100">
+    <text>ELKJS: No layout provided!</text>
   </svg>
 </template>
 
 <script>
-const ELK = require('elkjs')
+import ELK from 'elkjs'
 const elk = new ELK()
 
 const graph = {
@@ -46,7 +52,8 @@ export default {
       layout: {
         children: [],
         edges: []
-      }
+      },
+      errors: []
     }
   },
   computed: {
@@ -111,7 +118,7 @@ export default {
         })
       })
       graph.edges = [...facilityEdges].filter(removeEmptyEdges)
-      console.log('Technology Diagram ????', graph.edges)
+      console.log('Technology Diagram Edges:', graph.edges)
     },
     async computeLayout () {
       let result = {}
@@ -120,6 +127,8 @@ export default {
         console.log('Technology Diagram, ELKJS Result:', result)
       } catch (ex) {
         console.error('Technology Diagram, ELKJS Error:', ex)
+        this.errors.push('Technology Diagram, ELKJS Error:')
+        this.errors.push(ex)
       }
       return result
     }

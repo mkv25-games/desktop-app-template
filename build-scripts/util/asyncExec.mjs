@@ -1,5 +1,7 @@
-const execSync = require('child_process').exec
-const exec = (command, options) => {
+import childProcess from 'child_process'
+const execSync = childProcess.exec
+
+function exec (command, options) {
   return new Promise(function (resolve, reject) {
     execSync(command, options, (error, stdout, stderr) => {
       if (error) {
@@ -14,4 +16,4 @@ const exec = (command, options) => {
   })
 }
 
-module.exports = exec
+export default exec

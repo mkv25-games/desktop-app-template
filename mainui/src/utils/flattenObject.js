@@ -9,4 +9,4 @@ const flattenObject = (obj = {}, res = {}, extraKey = '') => {
   return res
 }
 
-module.exports = flattenObject
+export default flattenObject

@@ -1,13 +1,13 @@
 #!/bin/bash
 
 run() {
-    node data-scripts/find-all-components.js
-    node data-scripts/find-all-routes.js
+    node data-scripts/find-all-components.mjs
+    node data-scripts/find-all-routes.mjs
     cd mainui
     npm install
-    npm run serve &
+    npm run dev &
     cd ..
-    APP_MODE=local-dev npm run forge-start
+    ELECTRON_ENABLE_SECURITY_WARNINGS=false APP_MODE=local-dev npm run forge-start
 }
 
 scriptCancelled="false"

@@ -15,7 +15,7 @@
     <foreignObject class="node" x="0" y="0" :width="tech.width" :height="tech.height">
       <body xmlns="http://www.w3.org/1999/xhtml" class="techbox html">
         <div>
-          <Icon :icon="tech.data.icon" />
+          <Icon :icon="findIcon(tech)" />
           <div v-for="(line, index) in labelLines" :key="`la_${index}`">{{ line }}</div>
         </div>
       </body>
@@ -31,6 +31,12 @@ export default {
       default () {
         return { label: 'No label' }
       }
+    }
+  },
+  methods: {
+    findIcon (tech) {
+      const { data } = tech
+      return data ? data.icon || 'seedling' : 'seedling'
     }
   },
   computed: {

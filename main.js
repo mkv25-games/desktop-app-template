@@ -1,15 +1,36 @@
-const path = require('path')
-const url = require('url')
-const { app, BrowserWindow } = require('electron')
-const rpc = require('./src/rpc')
+import path from 'path'
+import url from 'url'
+import { app, BrowserWindow } from 'electron'
+import fs from 'fs'
+import createRPCServer from './src/rpcServer'
+import modpackLoader from './src/modpackLoader'
+import { position } from 'promise-path'
 
-const { title, version } = require('./package.json')
+const __filename = url.fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const packageJson = JSON.parse(fs.readFileSync('package.json'))
+const { title, version } = packageJson
+
+const applicationRoot = position(__dirname, './')
 
 const iconUrl = url.format({
   pathname: path.join(__dirname, 'icons/icon.icns'),
   protocol: 'file:',
   slashes: true
 })
+
+function getUserPath () {
+  return app.getPath('userData')
+}
+
+async function findModpacks (serverPort) {
+  const userDataPath = position(getUserPath())
+  const defaultModpacks = applicationRoot('modpacks')
+  const userModpacks = userDataPath('modpacks')
+  const directoryPaths = [defaultModpacks, userModpacks]
+  return modpackLoader(directoryPaths, serverPort)
+}
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -18,9 +39,14 @@ function createWindow () {
     autoHideMenuBar: true,
     useContentSize: true,
     webPreferences: {
-      preload: path.join(__dirname, 'src/preload.js')
+      nodeIntegration: true,
+      contextIsolation: true,
+      enableRemoteModule: false,
+      preload: path.join(__dirname, 'src/preload.js'),
+      sandbox: false
     },
-    icon: iconUrl
+    icon: iconUrl,
+    allowRunningInsecureContent: true
   })
 
   const mode = selectApplicationMode(process)
@@ -66,16 +92,20 @@ function loadFromLocalFileSystem (mainWindow) {
   mainWindow.loadFile(winFilepath)
 }
 
-app.whenReady().then(() => {
-  const mainWindow = createWindow()
-  rpc.setupProcessRPC(mainWindow)
+const mainApp = {}
+app.whenReady().then(async () => {
+  mainApp.mainWindow = createWindow()
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) {
-      const mainWindow = createWindow()
-      rpc.setupProcessRPC(mainWindow)
+      mainApp.mainWindow = createWindow()
     }
   })
+
+  const userPath = getUserPath()
+  const appPath = applicationRoot('./')
+  createRPCServer({ app, mainApp, version, serverPort: 25010, appPath, userPath })
+  findModpacks(25015)
 })
 
 app.on('window-all-closed', function () {

@@ -2,4 +2,4 @@ function createModpack () {
   return {}
 }
 
-module.exports = createModpack
+export default createModpack

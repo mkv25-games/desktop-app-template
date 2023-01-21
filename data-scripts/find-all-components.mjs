@@ -1,4 +1,9 @@
-const { find, position, write } = require('promise-path')
+import { find, position, write } from 'promise-path'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 function filenameFromPath (vueFile) {
   return vueFile.split('/').pop().split('.vue')[0]
@@ -20,7 +25,7 @@ async function run () {
   console.log(vueFiles.join('\n'))
   console.log('Found', vueFiles.length, 'vue files')
 
-  const lines = ['/* Generated file: node data-scripts/find-all-components.js */']
+  const lines = ['/* Generated file: node data-scripts/find-all-components.mjs */']
   lines.push('')
   lines.push(...importStatements)
   lines.push('')

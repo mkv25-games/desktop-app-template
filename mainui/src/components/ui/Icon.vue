@@ -25,6 +25,7 @@ export default {
   align-items: center;
   width: 1.5em;
   height: 1.5em;
+  margin: -0.25em 0;
   text-align: center;
   vertical-align: middle;
   user-select: none;

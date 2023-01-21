@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import rpc from './api/rpc'
 import router from './router'
 import store from './store/main'
 
@@ -31,11 +30,6 @@ async function startMainUI () {
   app.mount('#mainui-app')
 }
 
-function glueSystemsTogether () {
-  console.log('Window ready?', window)
-  rpc.notify(window)
-}
-
 function raceStartupEvent () {
   window.preloadComplete = startMainUI
   if (typeof window.mainuiRunning === 'function') {
@@ -45,5 +39,4 @@ function raceStartupEvent () {
   setTimeout(startMainUI, 500)
 }
 
-glueSystemsTogether(window)
 raceStartupEvent()

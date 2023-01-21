@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tile-grid" :style="gridStyle()">
-      <div :class="previousPageClass()" v-on:click="previousPage">
+      <div :class="previousPageClass()" v-on:mousedown="previousPage" v-on:mouseup="clearRepeat('previousPage')" v-on:mouseout="clearRepeat('previousPage')">
          <font-awesome-icon :icon="['fas', 'caret-up']" />
       </div>
       <div v-for="tile in tilesInView" :style="style(tile)" :key="tile.id" :title="tile.icon" class="tile-grid-item">
@@ -12,7 +12,7 @@
       <div v-for="tile in emptyTiles" :style="style(tile)" :key="tile.id" class="tile-grid-item empty">
         <font-awesome-icon :icon="['fas', 'expand']" />
       </div>
-      <div :class="nextPageClass()" v-on:click="nextPage">
+      <div :class="nextPageClass()" v-on:mousedown="nextPage" v-on:mouseup="clearRepeat('nextPage')" v-on:mouseout="clearRepeat('nextPage')">
          <font-awesome-icon :icon="['fas', 'caret-down']" />
       </div>
     </div>
@@ -29,7 +29,8 @@
 export default {
   data () {
     return {
-      viewPosition: 0
+      viewPosition: 0,
+      repeats: {}
     }
   },
   props: {
@@ -123,18 +124,23 @@ export default {
       return ['scroll-next', 'grid-button', disabled].filter(n => n).join(' ')
     },
     previousPage () {
-      this.viewPosition = Math.max(0, this.viewPosition - this.pageSize)
+      this.viewPosition = Math.max(0, this.viewPosition - 1)
+      this.repeats.previousPage = setTimeout(this.previousPage, 120)
       return false
     },
     nextPage () {
       if (!this.scrollDownDisabled) {
         const maxViewPosition = this.pageSize * (this.maxPages - 1)
-        this.viewPosition = Math.min(maxViewPosition, this.viewPosition + this.pageSize)
+        this.viewPosition = Math.min(maxViewPosition, this.viewPosition + 1)
+        this.repeats.nextPage = setTimeout(this.nextPage, 120)
       }
       return false
     },
     gotoPage (pageId) {
       this.viewPosition = pageId * this.pageSize
+    },
+    clearRepeat (key) {
+      clearTimeout(this.repeats[key])
     }
   }
 }
@@ -145,8 +151,6 @@ export default {
   display: flex;
   flex-flow: row wrap;
   margin: auto;
-  outline: 1px solid #333;
-  color: #222;
   border-radius: 4px;
 }
 
@@ -158,17 +162,17 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #ccc;
+  color: #222;
   flex: auto;
-  outline: 2px solid #333;
-  outline-offset: -2px;
 }
 
 .tile-grid-item.empty {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #222;
-  color: #333;
+  background: #ccc;
+  color: #999;
 }
 
 .scroll-next {
@@ -179,23 +183,23 @@ export default {
   width: 100%;
   flex: auto;
   height: 30px;
-  color: white;
-  background: #222;
-  outline: 1px solid #333;
-  outline-offset: -1px;
+  color: gold;
+  background: rgba(140, 5, 5, 0.7);
   font-size: 24px;
   cursor: pointer;
   user-select: none;
 }
 .grid-button:hover {
-  background: #333;
+  color: lightskyblue;
+  background: rgba(0, 0, 0, 0.7);
 }
 .grid-button:active {
-  background: #111;
+  background: rgba(0, 0, 0, 0.9);
 }
 .grid-button.disabled {
   color: #999;
-  background: #444;
+  background: #BBB;
+  outline: none;
   cursor: default;
 }
 .page-markers {

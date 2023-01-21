@@ -1,7 +1,7 @@
 <template>
   <div :class="collapsableClass">
     <div class="title bar" v-on:click="toggle">
-      <label class="title"><Icon icon="puzzle-piece" />{{ title || 'No title set' }}</label>
+      <label class="title"><Icon v-if="titleIcon" :icon="titleIcon" />{{ title || 'No title set' }}</label>
       <label class="status">
         <span>{{ collapsed ? 'Show' : 'Hide' }}</span>
         <Icon :icon="collapseIcon" />
@@ -27,6 +27,9 @@ export default {
     },
     collapseIcon () {
       return this.collapsed ? 'angle-down' : 'angle-up'
+    },
+    titleIcon () {
+      return this.icon || ''
     }
   },
   methods: {
@@ -36,6 +39,10 @@ export default {
   },
   props: {
     title: {
+      type: String,
+      default: ''
+    },
+    icon: {
       type: String,
       default: ''
     }
