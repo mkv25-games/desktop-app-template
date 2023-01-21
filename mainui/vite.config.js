@@ -12,8 +12,8 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      stream: 'node_modules/stream-browserify/index.js',
+      '@': path.resolve(__dirname, './src'),
+      stream: 'node_modules/stream-browserify/index.js'
     }
   },
   server: {

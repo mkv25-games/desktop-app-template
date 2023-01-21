@@ -9,10 +9,11 @@ import { position } from 'promise-path'
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const packageJson = JSON.parse(fs.readFileSync('package.json'))
-const { title, version } = packageJson
-
 const applicationRoot = position(__dirname, './')
+
+const packagePath = applicationRoot('package.json')
+const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+const { title, version } = packageJson
 
 const iconUrl = url.format({
   pathname: path.join(__dirname, 'icons/icon.icns'),
@@ -46,6 +47,7 @@ function createWindow () {
       sandbox: false
     },
     icon: iconUrl,
+    webSecurity: false,
     allowRunningInsecureContent: true
   })
 

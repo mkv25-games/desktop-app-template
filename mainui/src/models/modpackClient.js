@@ -3,35 +3,39 @@ import axios from 'axios'
 const defaultDate = new Date()
 
 export default class ModpackClient {
-  constructor(server) {
+  constructor (server) {
     this.server = server
     this.client = axios.create({ baseURL: server.baseUrl })
   }
 
-  async init() {
+  async init () {
     this.refresh()
   }
 
-  async refresh() {
-    const response = await this.client.get('/')
-    this._index = response.data
+  async refresh () {
+    try {
+      const response = await this.client.get('/')
+      this._index = response.data
+    } catch (ex) {
+      this._lastError = ex
+    }
   }
 
-  get index() {
+  get index () {
     return this._index
   }
 
-  get serverInfo() {
+  get serverInfo () {
     const { index, server } = this
     return index.serverInfo ?? `Unable to communicate with local RPC server; tried: ${server.baseUrl}`
   }
 
-  get serverDate() {
+  get serverDate () {
     const { index } = this
     return new Date(index?.date) ?? defaultDate
   }
 
-  get modpacks() {
+  get modpacks () {
     const { index } = this
     return index?.modpacks ?? []
   }

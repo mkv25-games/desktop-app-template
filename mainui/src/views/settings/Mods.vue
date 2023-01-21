@@ -1,5 +1,6 @@
 <template>
   <settings class="mods scroll">
+    <div class="server-status">{{ modpackServerStatus }}</div>
     <div class="mods">
       <div class="modpack" v-for="modpack in modpacks" :key="modpack">
         <Collapsed :title="modpack.packdata.package || 'No package info'">
@@ -22,6 +23,13 @@
 <script>
 import Tabulation from '../../components/ui/Tabulation.vue'
 import Checkmark from '../../components/ui/Checkmark.vue'
+
+import ModpackClient from '../../models/modpackClient.js'
+
+const modpackServerPort = 25015
+const modpackClient = new ModpackClient({ baseUrl: `http://localhost:${modpackServerPort}/` })
+modpackClient.init()
+
 export default {
   components: { Tabulation, Checkmark },
   async mounted () {
@@ -30,6 +38,9 @@ export default {
   computed: {
     modpacks () {
       return this.$store.state.modpacks || []
+    },
+    modpackServerStatus() {
+      return modpackClient._lastError ?? modpackClient.serverInfo
     }
   },
   methods: {
@@ -59,5 +70,10 @@ export default {
   color: white;
   padding: 0.2em;
   margin-top: 0;
+}
+.server-status {
+  padding: 0.5em;
+  background: rgb(251, 179, 13);
+  color: #333;
 }
 </style>

@@ -102,7 +102,7 @@ function setup () {
         const data = clone(saveFile)
         return rpcClient.sendData(state.saveFile.name, data)
       },
-      async clearData ({}, key) {
+      async clearData (any, key) {
         return rpcClient.clearData(key)
       },
       async refreshSaveFileList ({ commit }) {
