@@ -114,7 +114,7 @@ function createServer ({ app, mainApp, version, serverPort, appPath, userPath })
     const webContents = mainWindow.webContents
 
     res.send({
-      message: 'stubbed',
+      message: 'toggle dev tools',
       body: req.body || '',
       data: req.data || {},
       openDevTools
