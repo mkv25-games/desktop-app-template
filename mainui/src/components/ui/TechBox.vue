@@ -1,5 +1,5 @@
 <template>
-  <g :transform="`translate(${tech.x} ${tech.y})`">
+  <g :transform="`translate(${tech.x ?? 0} ${tech.y ?? 0})`">
     <rect
       :width="tech.width" :height="tech.height"
       stroke="black"
@@ -29,7 +29,7 @@ export default {
     tech: {
       type: Object,
       default () {
-        return { label: 'No label' }
+        return { label: 'No label', x: 0, y: 0, width: 10, height: 10 }
       }
     }
   },
@@ -54,12 +54,23 @@ export default {
 </script>
 
 <style scoped>
+
+.techbox, .techbox * {
+  cursor: pointer;
+  transition: background 0.5s ease-in-out;
+}
 .tech > rect {
   fill: rgb(248, 169, 116)
+}
+.tech:hover > rect {
+  fill: rgb(243, 200, 131)
 }
 
 .facility > rect {
   fill: rgb(146, 184, 255);
+}
+.facility:hover > rect {
+  fill: rgb(174, 211, 254);
 }
 .techbox.html {
   display: flex;
@@ -70,4 +81,5 @@ export default {
 .techbox.html > div.icon {
   font-size: 1.5em;
 }
+
 </style>

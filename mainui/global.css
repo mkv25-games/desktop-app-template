@@ -1,0 +1,23 @@
+
+pre {
+  text-align: left;
+  padding: 1em;
+  background: #333;
+  color: white;
+}
+
+.buttons {
+
+}
+
+.buttons > * {
+  margin: 0 0.2em;
+}
+
+.buttons > *:first-of-type {
+  margin-left: 0;
+}
+
+.buttons > *:last-of-type {
+  margin-right: 0;
+}

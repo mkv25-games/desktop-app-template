@@ -1,6 +1,6 @@
 <template>
   <g :class="className">
-    <g :transform="`translate(${location.x} ${location.y})`">
+    <g :transform="`translate(${location.x ?? 0} ${location.y ?? 0})`">
       <pattern v-if="tileImage" :id="`${location.id}_bgi`" patternUnits="userSpaceOnUse"
         :x="hw" :y="hh" :width="width" :height="height">
         <image :href="tileImage" :x="0" :y="0" :width="width" :height="height" />

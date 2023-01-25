@@ -1,4 +1,11 @@
 <template>
+  <div v-if="selectedTech">
+    <pre><code>{{ selectedTech }} </code></pre>
+  </div>
+  <p class="buttons">
+    <button @click="clearSelection">Clear Selection</button>
+    <button @click="redraw">Redraw</button>
+  </p>
   <div v-if="errors && errors.length > 0">
     <p class="warning">Errors with ELKJS: <span>{{ errors }}</span></p>
   </div>
@@ -9,6 +16,7 @@
     </g>
     <g>
       <tech-box v-for="tech in layout.children" :key="tech.id"
+        @click="selectTech(tech.data, tech)"
         :class="tech.className || 'tech'"
         :tech="tech" />
     </g>
@@ -22,23 +30,27 @@
 import ELK from 'elkjs'
 const elk = new ELK()
 
-const graph = {
-  id: 'technology-root',
-  layoutOptions: {
-    'elk.algorithm': 'layered',
-    'spacing.nodeNodeBetweenLayers': 50,
-    'elk.direction': 'DOWN'
-  },
-  children: [
-    { id: 'n1', width: 120, height: 60, label: 'Chemistry' },
-    { id: 'n2', width: 120, height: 60, label: 'Biology' },
-    { id: 'n3', width: 120, height: 60, label: 'Physics' }
-  ],
-  edges: [
-    { id: 'e1', sources: ['n1'], targets: ['n2'] },
-    { id: 'e2', sources: ['n1'], targets: ['n3'] }
-  ]
+function makeGraph () {
+  return {
+    id: 'technology-root',
+    layoutOptions: {
+      'elk.algorithm': 'layered',
+      'spacing.nodeNodeBetweenLayers': 50,
+      'elk.direction': 'DOWN'
+    },
+    children: [
+      { id: 'n1', width: 120, height: 60, label: 'Chemistry' },
+      { id: 'n2', width: 120, height: 60, label: 'Biology' },
+      { id: 'n3', width: 120, height: 60, label: 'Physics' }
+    ],
+    edges: [
+      { id: 'e1', sources: ['n1'], targets: ['n2'] },
+      { id: 'e2', sources: ['n1'], targets: ['n3'] }
+    ]
+  }
 }
+
+const graph = makeGraph()
 
 function removeEmptyEdges (edge) {
   const hasTargets = edge.targets && edge.targets.length > 0
@@ -49,31 +61,50 @@ function removeEmptyEdges (edge) {
 export default {
   data () {
     return {
+      graph,
       layout: {
         children: [],
         edges: []
       },
-      errors: []
+      errors: [],
+      selectedTech: null
     }
   },
   computed: {
     technologies () {
-      return this.$store.state.gamedata.Technology || []
+      const { $store } = this
+      const techByName = $store.getGamedataIndex('Technology', 'name')
+      return Object.values(techByName) || []
+    },
+    filteredTechnologies () {
+      const { technologies, selectedTech } = this
+      if (selectedTech) {
+        console.log('Filtering based on', selectedTech)
+        return technologies.filter(tech => tech.name === selectedTech.name || selectedTech?.tech?.requires.includes(tech.name) || selectedTech?.tech?.supports?.includes(tech.name))
+      }
+      return technologies
     },
     facilities () {
-      return this.$store.state.gamedata.Facility || []
+      const { $store } = this
+      const facilitiesByName = $store.getGamedataIndex('Facility', 'name')
+      return Object.values(facilitiesByName) || []
+    },
+    filteredFacilities () {
+      const { facilities, selectedTech } = this
+      if (selectedTech) {
+        console.log('Filtering based on', selectedTech)
+        return facilities.filter(fac => fac.name === selectedTech.name || fac?.tech.requires?.includes(selectedTech.name) || fac?.tech.supports?.includes(selectedTech.name))
+      }
+      return facilities
     }
   },
   async mounted () {
-    await this.updateGraph()
-    const layout = await this.computeLayout()
-    console.log('Technology Diagram Mounted:', layout)
-    this.layout = layout
+    await this.redraw()
   },
   methods: {
     async updateGraph () {
-      const { technologies, facilities } = this
-      const techChildren = technologies.map(tech => {
+      const { $store, graph, filteredTechnologies, filteredFacilities } = this
+      const techChildren = filteredTechnologies.map(tech => {
         return {
           id: `t_${tech.name}`,
           width: 120,
@@ -83,7 +114,7 @@ export default {
           data: tech
         }
       })
-      const facilityChildren = facilities.map(facility => {
+      const facilityChildren = filteredFacilities.map(facility => {
         return {
           id: `f_${facility.name}`,
           width: 120,
@@ -96,10 +127,12 @@ export default {
       graph.children = [...techChildren, ...facilityChildren]
       console.log('Children:', graph.children)
 
+      const techMapByName = $store.indexByProp(filteredTechnologies, 'name')
+
       const facilityEdges = []
-      facilities.forEach((facility, i) => {
-        const requires = (facility.tech.requires || '').split(', ').filter(n => n)
-        const supports = (facility.tech.supports || '').split(', ').filter(n => n)
+      filteredFacilities.forEach((facility, i) => {
+        const requires = (facility.tech.requires || '').split(', ').filter(n => n).filter(item => techMapByName[item])
+        const supports = (facility.tech.supports || '').split(', ').filter(n => n).filter(item => techMapByName[item])
         requires.forEach((item, n) => {
           facilityEdges.push({
             id: `fse_${i}_${n}`,
@@ -118,19 +151,35 @@ export default {
         })
       })
       graph.edges = [...facilityEdges].filter(removeEmptyEdges)
-      console.log('Technology Diagram Edges:', graph.edges)
+      // console.log('Technology Diagram Edges:', graph.edges)
+
+      this.graph = graph
     },
     async computeLayout () {
       let result = {}
       try {
-        result = await elk.layout(graph)
-        console.log('Technology Diagram, ELKJS Result:', result)
+        result = await elk.layout(this.graph)
+        // console.log('Technology Diagram, ELKJS Result:', result)
       } catch (ex) {
         console.error('Technology Diagram, ELKJS Error:', ex)
         this.errors.push('Technology Diagram, ELKJS Error:')
         this.errors.push(ex)
       }
       return result
+    },
+    async redraw () {
+      await this.updateGraph()
+      const layout = await this.computeLayout()
+      console.log('Technology Diagram Mounted:', layout)
+      this.layout = layout
+    },
+    selectTech (tech, techBox) {
+      this.selectedTech = tech
+      this.redraw()
+    },
+    clearSelection () {
+      this.selectedTech = null
+      this.redraw()
     }
   }
 }

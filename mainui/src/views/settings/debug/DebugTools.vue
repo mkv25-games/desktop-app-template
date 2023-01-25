@@ -59,12 +59,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-pre {
-  text-align: left;
-  padding: 1em;
-  background: #333;
-  color: white;
-}
-</style>

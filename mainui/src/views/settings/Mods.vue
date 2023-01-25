@@ -6,7 +6,7 @@
         <Collapsed :title="modpack.packdata.package || 'No package info'">
           <p>Content summary: {{ summarise(modpack).join(', ') }}</p>
           <p>Website: <a :href="modpack.packdata.website">{{ modpack.packdata.website }}</a></p>
-          <Toggle on="Mod Enabled by User" off="Mod Disabled by User" unknown="Click here to enable/disable modpack" v-model="$store.state.userPreferences.modpackStatus[modpack.packdata.package]" v-on:toggled="modStatusChange()" />
+          <Toggle on="Mod Enabled by User" off="Mod Disabled by User" unknown="Click here to enable/disable modpack" v-model="state.userPreferences.modpackStatus[modpack.packdata.package]" v-on:toggled="modStatusChange()" />
 
           <p><checkmark v-model="modpack.packdata.enabled" /> {{ modpack.packdata.enabled ? 'Enabled' : 'Disabled' }} by Default by Modpack author</p>
           <div v-for="([datasetKey, items]) in datasets(modpack)" :key="datasetKey" class="dataset">
@@ -32,12 +32,18 @@ modpackClient.init()
 
 export default {
   components: { Tabulation, Checkmark },
+  data () {
+    return {
+      state: this.$store.state
+    }
+  },
   async mounted () {
     await this.$store.loadModpacks()
+    this.state = this.$store.state
   },
   computed: {
     modpacks () {
-      return this.$store.state.modpacks || []
+      return this.state.modpacks || []
     },
     modpackServerStatus() {
       return modpackClient._lastError ?? modpackClient.serverInfo

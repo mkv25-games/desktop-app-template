@@ -42,3 +42,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+g > path {
+  stroke-width: 3px;
+  cursor: pointer;
+}
+g:hover > path {
+  stroke-width: 5px;
+}
+</style>

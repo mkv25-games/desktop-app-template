@@ -47,37 +47,31 @@ export default class MainStore {
   setUserPreferences (newVal) {
     const { state } = this
     state.userPreferences = clone(newVal)
-    this.state = clone(state)
   }
 
   patchUserPreferences (newVal) {
     const { state } = this
     state.userPreferences = clone(Object.assign({}, state.userPreferences, newVal))
-    this.state = clone(state)
   }
 
   assignSaveFile (newVal) {
     const { state } = this
     state.saveFile = newVal
-    this.state = clone(state)
   }
 
   saveFileList (newVal) {
     const { state } = this
     state.saveFileList = clone(newVal)
-    this.state = clone(state)
   }
 
   setVersion (newVal) {
     const { state } = this
     state.version = clone(newVal)
-    this.state = clone(state)
   }
 
   modpacks (newVal) {
     const { state } = this
     state.modpacks = clone(newVal)
-    this.state = clone(state)
   }
 
   get developerToolsVisible () {
@@ -88,7 +82,6 @@ export default class MainStore {
   set developerToolsVisible (newVal) {
     const { state } = this
     state.userPreferences.developerTools.visible = newVal
-    this.state = clone(state)
   }
 
   get modpackStatus () {
@@ -101,7 +94,6 @@ export default class MainStore {
     if (state?.userPreferences?.modpackStatus) {
       state.userPreferences.modpackStatus[newVal.package] = newVal.enabled
     }
-    this.state = clone(state)
   }
 
   knownImagePaths (knownImagePaths) {
@@ -178,7 +170,8 @@ export default class MainStore {
     this.modpacks(modpacks)
     const modpackStatus = state?.userPreferences?.modpackStatus ?? {}
     const allModpackData = combineModpacks(modpacks, modpackStatus)
-    const knownImagePaths = allModpackData.images.reduce((acc, item) => {
+    const images = allModpackData?.images ?? []
+    const knownImagePaths = images.reduce((acc, item) => {
       acc[item] = true
       return acc
     }, {})
@@ -225,6 +218,10 @@ export default class MainStore {
     const { state } = this
     const { gamedata } = state
     const dataset = gamedata[type] || []
+    return this.indexByProp(dataset, property)
+  }
+
+  indexByProp (dataset, property = 'id') {
     const index = dataset.reduce((acc, item) => {
       const key = item[property]
       acc[key] = item
