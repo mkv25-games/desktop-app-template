@@ -189,12 +189,13 @@ export default {
     setZoom (newZoom) {
       const { zoom, cursorX, cursorY, offsetX, offsetY, maxZoom, minZoom } = this
       const constrainedZoom = Math.min(Math.max(newZoom, maxZoom), minZoom)
-      const delta = zoom - constrainedZoom
+      const leveledZoom = Math.round(constrainedZoom / 10) * 10
+      const delta = zoom - leveledZoom
       const cursorXOffset = cursorX - offsetX
       const cursorYOffset = cursorY - offsetY
       const deltaX = (cursorXOffset * delta / zoom)
       const deltaY = (cursorYOffset * delta / zoom)
-      this.scrollDirection(deltaX, deltaY, constrainedZoom)
+      this.scrollDirection(deltaX, deltaY, leveledZoom)
       this.recaculateSizes('setZoom')
     },
     zoomIn () {

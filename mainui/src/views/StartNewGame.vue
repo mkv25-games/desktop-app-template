@@ -19,7 +19,7 @@
             <p class="form-error" v-for="message in formErrors" :key="message">{{ message }}</p>
           </div>
           <p class="actions">
-            <router-link to="/home">Cancel</router-link>
+            <router-link to="/" draggable="false" class="button">Cancel</router-link>
             <button v-on:click="submitForm">Create</button>
           </p>
         </div>
@@ -63,8 +63,8 @@ export default {
       let saveFile
       try {
         saveFile = newSaveFile({ name: data.filename })
-        await this.$store.dispatch('saveGameRecord', saveFile)
-        await this.$store.dispatch('loadGameRecord', saveFile)
+        await this.$store.saveGameRecord(saveFile)
+        await this.$store.loadGameRecord(saveFile)
         this.$router.push({ path: '/full-page-section' })
       } catch (ex) {
         this.formErrors.push('Unable to create save file:', ex.message, saveFile)

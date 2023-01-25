@@ -17,7 +17,7 @@
 <script>
 export default {
   async mounted () {
-    await this.$store.dispatch('loadModpacks')
+    await this.$store.loadModpacks()
   },
   computed: {
     gamedata () {

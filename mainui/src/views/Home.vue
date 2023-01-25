@@ -19,7 +19,7 @@
 <script>
 export default {
   async mounted () {
-    await this.$store.dispatch('refreshSaveFileList')
+    await this.$store.refreshSaveFileList()
   }
 }
 </script>

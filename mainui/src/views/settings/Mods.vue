@@ -33,7 +33,7 @@ modpackClient.init()
 export default {
   components: { Tabulation, Checkmark },
   async mounted () {
-    await this.$store.dispatch('loadModpacks')
+    await this.$store.loadModpacks()
   },
   computed: {
     modpacks () {
@@ -55,7 +55,7 @@ export default {
         .filter(([key, value]) => Array.isArray(value))
     },
     modStatusChange () {
-      this.$store.dispatch('toggleModpackStatus')
+      this.$store.toggleModpackStatus()
     }
   }
 }

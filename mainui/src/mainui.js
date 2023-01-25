@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store/main'
+import MainStore from './store/main'
 
 import setupFontAwesome from './components/FontAwesome'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -18,12 +18,15 @@ async function startMainUI () {
   if (mainUIStarted) {
     return
   }
+  const mainStore = new MainStore()
   mainUIStarted = true
   setupFontAwesome(App)
   const app = createApp(App)
-    .use(store)
+    .provide('store', mainStore)
     .use(router)
     .component('font-awesome-icon', FontAwesomeIcon)
+
+  app.config.globalProperties.$store = mainStore
 
   registerAllComponentsGlobally(app)
 

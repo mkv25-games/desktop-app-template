@@ -26,7 +26,7 @@ export default {
           id: icon,
           icon: icon
         }
-      }).filter(item => item.icon.includes(iconFilter) || iconFilter.includes(item.icon))
+      }).filter(item => item.icon.includes(iconFilter) || iconFilter.includes(item.icon)).slice(0, 25)
     }
   },
   components: { Tabulation }

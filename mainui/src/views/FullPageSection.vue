@@ -6,16 +6,14 @@
       <h2>Left Column</h2>
       <p>Options for new and returning players:</p>
 
-      <p>
-        <a v-if="lastSaveFile" v-on:click="reloadLastSave(lastSaveFile)">Continue <b>{{ lastSaveFile.name }}</b></a>
-        <span v-else class="disabled-link">[ No Recent Save File Found ]</span>
-      </p>
-      <p><router-link to="/start-new-game">Start New Game</router-link></p>
-      <p>
-        <router-link v-if="saveFileList.length > 0" to="/save-file-management">Manage Save Files</router-link>
+      <div class="flex-column">
+        <p v-if="$store.gameLoaded">Current game: {{ $store?.state?.saveFile?.name }}</p>
+        <a v-if="lastSaveFile" v-on:click="reloadLastSave(lastSaveFile)" draggable="false" class="button">Continue <b>{{ lastSaveFile.name }}</b></a>
+        <span v-else class="button disabled-link">[ No Recent Save File Found ]</span>
+        <router-link to="/start-new-game" draggable="false" class="button">Start New Game</router-link>
+        <router-link v-if="saveFileList.length > 0" to="/save-file-management" draggable="false" class="button">Manage Save Files</router-link>
         <span v-else class="disabled-link">[ Manage Save Files ]</span>
-      </p>
-
+      </div>
     </div>
     <div class="column">
       <h2>Right Column</h2>
@@ -48,8 +46,8 @@ import VerticalTileGrid from '../components/ui/VerticalTileGrid.vue'
 export default {
   async mounted () {
     await Promise.all([
-      this.$store.dispatch('refreshSaveFileList'),
-      this.$store.dispatch('loadModpacks')
+      this.$store.refreshSaveFileList(),
+      this.$store.loadModpacks()
     ])
   },
   computed: {
@@ -68,7 +66,7 @@ export default {
   },
   methods: {
     async reloadLastSave (saveFile) {
-      await this.$store.dispatch('loadGameRecord', saveFile)
+      await this.$store.loadGameRecord(saveFile)
       this.$router.push({ path: '/multi-page-section/section-1' })
     }
   },
@@ -82,18 +80,18 @@ export default {
   display: inline-block;
   width: 48%;
 }
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.flex-column > * {
+  margin: 0.2em 0;
+}
 .disabled-link {
   opacity: 0.4;
   cursor:default;
-}
-a {
-  color: purple;
-  text-decoration: none;
-  cursor: pointer;
-}
-a:hover {
-  color: purple;
-  text-shadow: 2px 2px rgb(50, 20, 20, 0.2);
 }
 
 .icon-label {

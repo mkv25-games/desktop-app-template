@@ -124,7 +124,7 @@ export default {
   },
   async mounted () {
     await Promise.all([
-      this.$store.dispatch('loadModpacks')
+      this.$store.loadModpacks()
     ])
     this.updateLayout()
   },

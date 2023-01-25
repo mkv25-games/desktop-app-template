@@ -12,11 +12,12 @@ export default {
   components: {
     PrimaryNav
   },
-  mounted () {
-    this.$store.dispatch('getVersion')
-    this.$store.dispatch('loadUserPreferences')
-    this.$store.dispatch('refreshSaveFileList')
-    this.$store.dispatch('loadModpacks')
+  async mounted () {
+    const { $store } = this
+    await $store.getVersion()
+    await $store.loadUserPreferences()
+    await $store.refreshSaveFileList()
+    await $store.loadModpacks()
   }
 }
 </script>
@@ -73,5 +74,31 @@ h2 {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     font-weight: bold;
+}
+
+button, .button {
+  padding: 0.5em 0.8em;
+  background: #555;
+  border: 0;
+  border-radius: 0.2em;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1.0em;
+  color: white;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s ease-in-out;
+}
+button:hover, .button:hover {
+  background: #999;
+}
+button:active, .button:active {
+  background: #777;
+}
+
+*:focus {
+  outline: 2px solid orange;
+  outline-offset: -2px;
 }
 </style>
