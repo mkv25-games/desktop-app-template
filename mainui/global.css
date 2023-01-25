@@ -11,13 +11,15 @@ pre {
 }
 
 .buttons > * {
-  margin: 0 0.2em;
+  margin: 0.2em 0.2em;
 }
 
 .buttons > *:first-of-type {
+  margin-top: 0;
   margin-left: 0;
 }
 
 .buttons > *:last-of-type {
   margin-right: 0;
+  margin-bottom: 0;
 }

@@ -1,5 +1,15 @@
 <template>
-  <g :transform="`translate(${tech.x ?? 0} ${tech.y ?? 0})`">
+  <g :transform="`translate(${tech.x ?? 0} ${tech.y ?? 0})`" class="techbox">
+    <g :transform="`translate(5 -5)`" class="ports">
+      <rect
+        :width="tech.width - 10" :height="10"
+        fill="gray" />
+    </g>
+    <g :transform="`translate(5 ${tech.height - 5})`" class="ports">
+      <rect
+        :width="tech.width - 10" :height="10"
+        fill="gray" />
+    </g>
     <rect
       :width="tech.width" :height="tech.height"
       stroke="black"
@@ -15,9 +25,13 @@
     <foreignObject class="node" x="0" y="0" :width="tech.width" :height="tech.height">
       <body xmlns="http://www.w3.org/1999/xhtml" class="techbox html">
         <div>
-          <Icon :icon="findIcon(tech)" />
           <div v-for="(line, index) in labelLines" :key="`la_${index}`">{{ line }}</div>
+          <div class="progress">
+            <div class="bar"></div>
+          </div>
         </div>
+        <div class="level">L1</div>
+        <Icon :icon="findIcon(tech)" />
       </body>
     </foreignObject>
   </g>
@@ -72,14 +86,46 @@ export default {
 .facility:hover > rect {
   fill: rgb(174, 211, 254);
 }
+
+.tech .techbox.html {
+  font-size: 0.9em;
+}
+
 .techbox.html {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: 1.2em;
 }
-.techbox.html > div.icon {
-  font-size: 1.5em;
+.techbox.html div.icon {
+  position: absolute;
+  bottom: 5px;
+  right: 0;
+  font-size: 1.0em;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5em 0 0 0;
+  padding: 5px;
+}
+
+div.level {
+  position: absolute;
+  display: inline-block;
+  min-width: 1.5em;
+  bottom: 0;
+  left: 0;
+  font-size: 1.0em;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0 0.5em 0 0;
+  padding: 5px;
+}
+
+.ports > rect {
+  fill: #ccc;
+}
+
+.techbox:hover .ports > rect {
+  fill: #aaa;
 }
 
 </style>

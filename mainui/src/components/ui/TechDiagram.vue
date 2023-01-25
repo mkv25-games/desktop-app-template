@@ -3,13 +3,20 @@
     <pre><code>{{ selectedTech }} </code></pre>
   </div>
   <p class="buttons">
-    <button @click="clearSelection">Clear Selection</button>
-    <button @click="redraw">Redraw</button>
+    <button @click="clearSelection">Show Full Tree</button>
+    <button @click="displayHorizontal">Display Horizontal</button>
+    <button @click="displayVertical">Display Vertical</button>
+    <button @click="changeNodeSpacing(50)">Compact Spacing</button>
+    <button @click="changeNodeSpacing(100)">Wide Spacing</button>
+    <button @click="zoomLevel = 'zoomIn'">Zoom In</button>
+    <button @click="zoomLevel = ''">Reset Zoom</button>
+    <button @click="zoomLevel = 'zoomOut'">Zoom Out</button>
   </p>
   <div v-if="errors && errors.length > 0">
     <p class="warning">Errors with ELKJS: <span>{{ errors }}</span></p>
   </div>
   <svg v-else-if="layout"
+    :class="zoomLevel"
     :width="layout.width" :height="layout.height">
     <g>
       <tech-edge v-for="edge in layout.edges" :key="edge.id" :edge="edge" />
@@ -36,6 +43,7 @@ function makeGraph () {
     layoutOptions: {
       'elk.algorithm': 'layered',
       'spacing.nodeNodeBetweenLayers': 50,
+      'spacing.nodeNode': 25,
       'elk.direction': 'DOWN'
     },
     children: [
@@ -67,7 +75,10 @@ export default {
         edges: []
       },
       errors: [],
-      selectedTech: null
+      selectedTech: null,
+      direction: 'DOWN',
+      nodeSpacing: 50,
+      zoomLevel: ''
     }
   },
   computed: {
@@ -104,7 +115,10 @@ export default {
   },
   methods: {
     async updateGraph () {
-      const { $store, graph, filteredTechnologies, filteredFacilities } = this
+      const { $store, graph, filteredTechnologies, filteredFacilities, direction, nodeSpacing } = this
+      graph.layoutOptions['elk.direction'] = direction
+      graph.layoutOptions['spacing.nodeNode'] = Math.round(nodeSpacing * 0.5)
+      graph.layoutOptions['spacing.nodeNodeBetweenLayers'] = nodeSpacing
       const techChildren = filteredTechnologies.map(tech => {
         return {
           id: `t_${tech.name}`,
@@ -118,8 +132,8 @@ export default {
       const facilityChildren = filteredFacilities.map(facility => {
         return {
           id: `f_${facility.name}`,
-          width: 120,
-          height: 90,
+          width: 160,
+          height: 120,
           label: facility.name,
           className: 'facility',
           data: facility
@@ -181,6 +195,18 @@ export default {
     clearSelection () {
       this.selectedTech = null
       this.redraw()
+    },
+    displayHorizontal () {
+      this.direction = 'RIGHT'
+      this.redraw()
+    },
+    displayVertical () {
+      this.direction = 'DOWN'
+      this.redraw()
+    },
+    changeNodeSpacing(val) {
+      this.nodeSpacing = val
+      this.redraw()
     }
   }
 }
@@ -188,6 +214,14 @@ export default {
 
 <style scoped>
 svg {
-  zoom: 0.8;
+  zoom: 1.0;
+}
+
+svg.zoomOut {
+  zoom: 0.75;
+}
+
+svg.zoomIn {
+  zoom: 1.2;
 }
 </style>
