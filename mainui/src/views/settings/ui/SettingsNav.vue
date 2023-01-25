@@ -12,9 +12,9 @@
       <icon icon="database" />
       <span>Game Data</span>
     </router-link>
-    <router-link to="/settings/debug/debug">
+    <router-link to="/settings/debug/debug-tools">
       <icon icon="cogs" />
-      <span>Debug</span>
+      <span>Debug Tools</span>
     </router-link>
     <router-link to="/settings/debug/icons">
       <icon icon="icons" />

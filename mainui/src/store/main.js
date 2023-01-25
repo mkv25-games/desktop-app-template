@@ -47,32 +47,48 @@ export default class MainStore {
   setUserPreferences (newVal) {
     const { state } = this
     state.userPreferences = clone(newVal)
+    this.state = clone(state)
   }
 
   patchUserPreferences (newVal) {
     const { state } = this
     state.userPreferences = clone(Object.assign({}, state.userPreferences, newVal))
+    this.state = clone(state)
   }
 
   assignSaveFile (newVal) {
     const { state } = this
-    console.log('Change save file:', newVal)
     state.saveFile = newVal
+    this.state = clone(state)
   }
 
   saveFileList (newVal) {
     const { state } = this
     state.saveFileList = clone(newVal)
+    this.state = clone(state)
   }
 
   setVersion (newVal) {
     const { state } = this
     state.version = clone(newVal)
+    this.state = clone(state)
   }
 
   modpacks (newVal) {
     const { state } = this
     state.modpacks = clone(newVal)
+    this.state = clone(state)
+  }
+
+  get developerToolsVisible () {
+    const { state } = this
+    return state?.userPreferences?.developerTools?.visible
+  }
+
+  set developerToolsVisible (newVal) {
+    const { state } = this
+    state.userPreferences.developerTools.visible = newVal
+    this.state = clone(state)
   }
 
   get modpackStatus () {
@@ -85,6 +101,7 @@ export default class MainStore {
     if (state?.userPreferences?.modpackStatus) {
       state.userPreferences.modpackStatus[newVal.package] = newVal.enabled
     }
+    this.state = clone(state)
   }
 
   knownImagePaths (knownImagePaths) {
@@ -95,6 +112,7 @@ export default class MainStore {
   gamedata (newVal) {
     const { state } = this
     state.gamedata = clone(newVal)
+    this.state = clone(state)
   }
 
   get gameLoaded () {
@@ -184,19 +202,14 @@ export default class MainStore {
 
   async hideDeveloperTools () {
     const { state } = this
-    if (state?.userPreferences?.developerTools) {
-      state.userPreferences.developerTools.visible = false
-    }
-    this.hideDeveloperTools()
+    this.developerToolsVisible = false
     const { developerTools } = state.userPreferences
     return rpcClient.updateDeveloperTools(developerTools.visible)
   }
 
   async showDeveloperTools () {
     const { state } = this
-    if (state?.userPreferences?.developerTools) {
-      state.userPreferences.developerTools.visible = true
-    }
+    this.developerToolsVisible = true
     const { developerTools } = state.userPreferences
     return rpcClient.updateDeveloperTools(developerTools.visible)
   }

@@ -57,8 +57,9 @@ export default {
       }
     },
     async deleteSaveFile (key) {
-      await this.electron.clearData(key)
-      return this.findSaveFiles()
+      await this.$store.clearData(key)
+      await this.findSaveFiles()
+      this.$forceUpdate()
     },
     async findSaveFiles () {
       this.loading = true

@@ -45,7 +45,7 @@ import Section3 from './views/multi-page-section/Section3.vue'
 import MultiPageSectionNav from './views/multi-page-section/ui/MultiPageSectionNav.vue'
 import SaveFileManagement from './views/SaveFileManagement.vue'
 import ComponentTests from './views/settings/debug/ComponentTests.vue'
-import Debug from './views/settings/debug/Debug.vue'
+import DebugTools from './views/settings/debug/DebugTools.vue'
 import Icons from './views/settings/debug/Icons.vue'
 import Gamedata from './views/settings/Gamedata.vue'
 import Mods from './views/settings/Mods.vue'
@@ -55,5 +55,5 @@ import StartNewGame from './views/StartNewGame.vue'
 import Template from './views/Template.vue'
 
 export default {
-  CardRow, CharacterCard, FlipCard, PrimaryNav, SidebarNav, StoryTeller, Checkmark, Collapsed, Column, ColumnLayout, FixedButton, FormActions, FormButton, FormInput, FormRow, GridFill, GrowButton, HiddenByDefault, HorizontalTileGrid, Icon, IconButton, Lightbox, PaginatedItems, PanAndZoom, Property, PropertyPanel, RelativeDate, SmartType, Tabulation, TechBox, TechDiagram, TechEdge, Toggle, VerticalTileGrid, WorldMap, WorldMapLocation, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, Debug, Icons, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
+  CardRow, CharacterCard, FlipCard, PrimaryNav, SidebarNav, StoryTeller, Checkmark, Collapsed, Column, ColumnLayout, FixedButton, FormActions, FormButton, FormInput, FormRow, GridFill, GrowButton, HiddenByDefault, HorizontalTileGrid, Icon, IconButton, Lightbox, PaginatedItems, PanAndZoom, Property, PropertyPanel, RelativeDate, SmartType, Tabulation, TechBox, TechDiagram, TechEdge, Toggle, VerticalTileGrid, WorldMap, WorldMapLocation, FullPageSection, Home, MultiPageSectionView, Section1, Section2, Section3, MultiPageSectionNav, SaveFileManagement, ComponentTests, DebugTools, Icons, Gamedata, Mods, Settings, SettingsNav, StartNewGame, Template
 }
