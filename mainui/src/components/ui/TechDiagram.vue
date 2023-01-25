@@ -79,7 +79,6 @@ export default {
     filteredTechnologies () {
       const { technologies, selectedTech } = this
       if (selectedTech) {
-        console.log('Filtering based on', selectedTech)
         return technologies.filter(tech => tech.name === selectedTech.name || selectedTech?.tech?.requires.includes(tech.name) || selectedTech?.tech?.supports?.includes(tech.name))
       }
       return technologies
@@ -92,13 +91,15 @@ export default {
     filteredFacilities () {
       const { facilities, selectedTech } = this
       if (selectedTech) {
-        console.log('Filtering based on', selectedTech)
         return facilities.filter(fac => fac.name === selectedTech.name || fac?.tech.requires?.includes(selectedTech.name) || fac?.tech.supports?.includes(selectedTech.name))
       }
       return facilities
     }
   },
   async mounted () {
+    const { $store, facilities, technologies } = this
+    const techByName = $store.indexByProp(technologies, 'name')
+    this.selectedTech = techByName.Speech ?? facilities[0] ?? technologies[0]
     await this.redraw()
   },
   methods: {
