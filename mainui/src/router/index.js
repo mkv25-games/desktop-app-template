@@ -10,8 +10,6 @@ const homeRoute = {
 
 const allRoutes = [...routes, homeRoute]
 
-console.log('Routes:', allRoutes)
-
 const router = createRouter({
   history: createWebHashHistory(),
   routes: allRoutes

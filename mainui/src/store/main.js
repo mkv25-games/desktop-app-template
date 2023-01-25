@@ -131,7 +131,6 @@ export default class MainStore {
 
   async loadGameRecord (payload) {
     const saveFile = await rpcClient.requestData(payload.name)
-    console.log('store/main.js SaveFile:', saveFile, 'Payload:', payload)
     this.assignSaveFile(saveFile.data)
   }
 
@@ -165,7 +164,7 @@ export default class MainStore {
       acc[item] = true
       return acc
     }, {})
-    console.log('Known Image Paths:', { knownImagePaths })
+    // console.log('Known Image Paths:', { knownImagePaths })
     this.knownImagePaths(knownImagePaths)
     this.gamedata(allModpackData)
   }
